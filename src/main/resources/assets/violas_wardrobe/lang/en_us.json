@@ -1,0 +1,12 @@
+{
+  "language": "English",
+  "language.code": "en_us",
+  "language.region": "United States",
+  "itemGroup.violas_wardrobe": "Viola's Wardrobe",
+
+  "item.violas_wardrobe.maid_headband": "Maid Headband",
+  "item.violas_wardrobe.maid_dress": "Maid dress",
+  "item.violas_wardrobe.maid_thigh_highs": "Maid thigh highs",
+
+  "enchantment.violas_wardrobe.taming": "Taming"
+}

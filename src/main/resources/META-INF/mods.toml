@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[46,)"
+license="MIT"
+issueTrackerURL="https://github.com/Viola-Siemens/Viola-s-Wardrobe/issues"
+
+[[mods]]
+modId="violas_wardrobe"
+version="${file.jarVersion}"
+displayName="Viola's Wardrobe"
+credits="Liu Dongyu"
+authors="Liu Dongyu"
+logoFile="logo.png"
+description='''
+Beautiful clothes for players and mobs!
+'''
+
+[[dependencies.violas_wardrobe]]
+    modId="forge"
+    mandatory=true
+    versionRange="[46,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.violas_wardrobe]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20,1.21)"
+    ordering="NONE"
+    side="BOTH"

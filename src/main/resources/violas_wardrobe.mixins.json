@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.hexagram2021.violas_wardrobe.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "ecnu.refmap.json",
+  "mixins": [
+    "taming.CatEntityMixin",
+    "taming.ParrotEntityMixin",
+    "taming.WolfEntityMixin"
+  ],
+  "minVersion": "0.8",
+  "client": [
+    "AbstractZombieRendererMixin",
+    "CustomHeadLayerMixin",
+    "PlayerRendererMixin"
+  ]
+}

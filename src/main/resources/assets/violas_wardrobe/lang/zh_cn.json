@@ -1,0 +1,12 @@
+{
+  "language": "Chinese",
+  "language.code": "zh_cn",
+  "language.region": "China",
+  "itemGroup.violas_wardrobe": "Viola 的衣柜",
+
+  "item.violas_wardrobe.maid_headband": "女仆头带",
+  "item.violas_wardrobe.maid_dress": "女仆连衣裙",
+  "item.violas_wardrobe.maid_thigh_highs": "女仆大腿袜",
+
+  "enchantment.violas_wardrobe.taming": "动物亲和"
+}
