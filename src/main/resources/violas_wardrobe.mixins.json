@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ecnu.refmap.json",
   "mixins": [
+    "LivingEntityMixin",
     "taming.CatEntityMixin",
     "taming.ParrotEntityMixin",
     "taming.WolfEntityMixin"
