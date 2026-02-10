@@ -7,19 +7,17 @@ import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-
-import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
 /**
- * Mod Content
+ * 模组内容初始化类，负责注册所有游戏内容喵~
+ *
  * @author liudongyu
  */
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class VWContent {
 	/**
-	 * Called on mod constructing.
-	 * @param modBus	the mod bus
+	 * 模组构造时调用，初始化所有注册表喵~
+	 *
+	 * @param modBus 模组事件总线喵~
 	 */
 	public static void modConstruction(IEventBus modBus) {
 		VWEnchantmentCategories.init();
@@ -28,6 +26,9 @@ public final class VWContent {
 		VWCreativeModeTabs.init(modBus);
 	}
 
+	/**
+	 * 配置原版兼容性，为投掷器注册服装物品的行为喵~
+	 */
 	public static void vanillaCompat() {
 		DispenserBlock.registerBehavior(VWItems.MAID_HEADBAND, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 		DispenserBlock.registerBehavior(VWItems.MAID_DRESS, ArmorItem.DISPENSE_ITEM_BEHAVIOR);

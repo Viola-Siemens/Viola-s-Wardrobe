@@ -12,12 +12,16 @@ import net.minecraftforge.registries.RegistryObject;
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
 /**
- * Mod Creative Mode Tabs
+ * 模组创意模式标签页喵~
+ *
  * @author liudongyu
  */
 public final class VWCreativeModeTabs {
 	private static final DeferredRegister<CreativeModeTab> REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
+	/**
+	 * 主标签页，包含模组的所有物品喵~
+	 */
 	public static final RegistryObject<CreativeModeTab> ECNU = REGISTER.register(
 			"main", () -> CreativeModeTab.builder()
 					.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
@@ -31,8 +35,9 @@ public final class VWCreativeModeTabs {
 	}
 
 	/**
-	 * Register the creative mode tabs on mod constructing.
-	 * @param modBus	the mod bus
+	 * 模组构造时注册创意模式标签页喵~
+	 *
+	 * @param modBus 模组事件总线喵~
 	 */
 	public static void init(IEventBus modBus) {
 		REGISTER.register(modBus);

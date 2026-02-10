@@ -6,11 +6,27 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
+/**
+ * 女仆头饰和裙子模型类，定义女仆装的头饰和裙子部分的 3D 模型喵~
+ *
+ * @param <T> 生物实体类型喵~
+ * @author liudongyu
+ */
 public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidModel<T> {
+	/**
+	 * 构造女仆头饰和裙子模型喵~
+	 *
+	 * @param root 模型根部件喵~
+	 */
 	public MaidHeadbandAndSkirtModel(ModelPart root) {
 		super(root);
 	}
 
+	/**
+	 * 创建身体图层定义，定义头饰、裙子和袖子的模型结构喵~
+	 *
+	 * @return 图层定义喵~
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();

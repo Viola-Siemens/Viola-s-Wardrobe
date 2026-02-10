@@ -12,14 +12,16 @@ import net.minecraftforge.fml.common.Mod;
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
 /**
- * Mod Client
+ * 模组客户端初始化类喵~
+ *
  * @author liudongyu
  */
 @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class VWClient {
 	/**
-	 * Register layer definitions for mod entities.
-	 * @param event	register layer definitions event
+	 * 注册模组实体的图层定义喵~
+	 *
+	 * @param event 注册图层定义事件喵~
 	 */
 	@SubscribeEvent
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {

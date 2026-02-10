@@ -9,16 +9,29 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 基础服装物品类，所有服装物品的基类喵~
+ *
+ * @author liudongyu
+ */
 public class BaseOutfitItem extends Item implements Equipable {
 	private final EquipmentSlot slot;
 
+	/**
+	 * 构造基础服装物品喵~
+	 *
+	 * @param slot 装备槽位喵~
+	 * @param properties 物品属性喵~
+	 */
 	public BaseOutfitItem(EquipmentSlot slot, Properties properties) {
 		super(properties);
 		this.slot = slot;
 	}
 
 	/**
-	 * Return the enchantability factor of the item, most of the time is based on material.
+	 * 返回物品的附魔能力值，通常基于材料决定喵~
+	 *
+	 * @return 附魔能力值，固定为 10 喵~
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
@@ -26,16 +39,35 @@ public class BaseOutfitItem extends Item implements Equipable {
 		return 10;
 	}
 
+	/**
+	 * 使用物品时的处理逻辑，将物品装备到对应槽位喵~
+	 *
+	 * @param level 世界喵~
+	 * @param player 玩家喵~
+	 * @param hand 使用的手喵~
+	 * @return 交互结果喵~
+	 */
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		return this.swapWithEquipmentSlot(this, level, player, hand);
 	}
 
+	/**
+	 * 获取装备槽位喵~
+	 *
+	 * @return 装备槽位喵~
+	 */
 	@Override
 	public EquipmentSlot getEquipmentSlot() {
 		return this.slot;
 	}
 
+	/**
+	 * 获取物品堆叠对应的装备槽位喵~
+	 *
+	 * @param itemStack 物品堆叠喵~
+	 * @return 装备槽位喵~
+	 */
 	@Override
 	public EquipmentSlot getEquipmentSlot(ItemStack itemStack) {
 		return this.slot;

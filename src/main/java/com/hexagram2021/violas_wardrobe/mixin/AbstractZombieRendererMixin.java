@@ -13,9 +13,25 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * 僵尸渲染器 Mixin，为僵尸添加女仆装渲染层喵~
+ *
+ * @param <T> 僵尸实体类型喵~
+ * @param <M> 僵尸模型类型喵~
+ * @author liudongyu
+ */
 @Mixin(AbstractZombieRenderer.class)
 @SuppressWarnings({"unchecked", "java:S100"})
 public class AbstractZombieRendererMixin<T extends Zombie, M extends ZombieModel<T>> {
+	/**
+	 * 在僵尸渲染器构造方法末尾注入，添加女仆装模型图层喵~
+	 *
+	 * @param context 实体渲染器提供者上下文喵~
+	 * @param model 模型喵~
+	 * @param innerModel 内层模型喵~
+	 * @param outerModel 外层模型喵~
+	 * @param ci 回调信息喵~
+	 */
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void violas_wardrobe$addModelLayers(EntityRendererProvider.Context context, M model,
 												M innerModel, M outerModel, CallbackInfo ci) {

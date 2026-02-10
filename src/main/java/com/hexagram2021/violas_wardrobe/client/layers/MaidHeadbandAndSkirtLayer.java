@@ -25,18 +25,48 @@ import java.util.Map;
 
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
+/**
+ * 女仆头饰和裙子渲染层，负责渲染女仆装的头饰、裙子和袖子部分喵~
+ *
+ * @param <T> 生物实体类型喵~
+ * @param <M> 父模型类型喵~
+ * @param <I> 内层模型类型喵~
+ * @param <O> 外层模型类型喵~
+ * @author liudongyu
+ */
 @SuppressWarnings("UnstableApiUsage")
 public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private static final Map<String, ResourceLocation> ARMOR_LOCATION_CACHE = Maps.newHashMap();
 	private final I innerModel;
 	private final O outerModel;
 
+	/**
+	 * 构造女仆头饰和裙子渲染层喵~
+	 *
+	 * @param renderer 渲染器父对象喵~
+	 * @param innerModel 内层模型喵~
+	 * @param outerModel 外层模型喵~
+	 */
 	public MaidHeadbandAndSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
 		super(renderer);
 		this.innerModel = innerModel;
 		this.outerModel = outerModel;
 	}
 
+	/**
+	 * 渲染女仆装的各个部件喵~
+	 *
+	 * @param transform 姿态变换矩阵喵~
+	 * @param buffer 多缓冲区源喵~
+	 * @param packedLight 打包的光照值喵~
+	 * @param entity 实体喵~
+	 * @param limbSwing 肢体摆动喵~
+	 * @param limbSwingAmount 肢体摆动幅度喵~
+	 * @param partialTicks 部分刻喵~
+	 * @param ageInTicks 年龄（刻）喵~
+	 * @param netHeadYaw 头部偏航角喵~
+	 * @param headPitch 头部俯仰角喵~
+	 */
 	@Override
 	public void render(PoseStack transform, MultiBufferSource buffer, int packedLight, T entity,
 					   float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -46,6 +76,15 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 		this.renderArmorPiece(transform, buffer, entity, EquipmentSlot.HEAD, packedLight);
 	}
 
+	/**
+	 * 渲染指定槽位的盔甲部件喵~
+	 *
+	 * @param transform 姿态变换矩阵喵~
+	 * @param buffer 多缓冲区源喵~
+	 * @param entity 实体喵~
+	 * @param slot 装备槽位喵~
+	 * @param packedLight 打包的光照值喵~
+	 */
 	private void renderArmorPiece(PoseStack transform, MultiBufferSource buffer, T entity, EquipmentSlot slot, int packedLight) {
 		ItemStack itemstack = entity.getItemBySlot(slot);
 		Item item = itemstack.getItem();
@@ -63,6 +102,13 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 		}
 	}
 
+	/**
+	 * 根据装备槽位设置模型部件的可见性喵~
+	 *
+	 * @param <T> 生物实体类型喵~
+	 * @param model 人形模型喵~
+	 * @param slot 装备槽位喵~
+	 */
 	protected static <T extends LivingEntity> void setPartVisibility(HumanoidModel<T> model, EquipmentSlot slot) {
 		model.setAllVisible(false);
 		switch (slot) {
@@ -88,19 +134,28 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 		}
 	}
 
+	/**
+	 * 渲染模型到缓冲区喵~
+	 *
+	 * @param transform 姿态变换矩阵喵~
+	 * @param buffer 多缓冲区源喵~
+	 * @param packedLight 打包的光照值喵~
+	 * @param model 模型喵~
+	 * @param armorResource 盔甲纹理资源位置喵~
+	 */
 	private static void renderModel(PoseStack transform, MultiBufferSource buffer, int packedLight, Model model, ResourceLocation armorResource) {
 		VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.armorCutoutNoCull(armorResource));
 		model.renderToBuffer(transform, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	/**
-	 * More generic ForgeHook version, which allows for Items to have more control over what texture they provide.
+	 * 获取内层盔甲纹理资源位置，允许物品对纹理有更多控制喵~
 	 *
-	 * @param entity Entity wearing the armor
-	 * @param stack ItemStack for the armor
-	 * @param slot Slot ID that the item is in
-	 * @param type Subtype, can be null or "overlay"
-	 * @return ResourceLocation pointing at the armor's texture
+	 * @param entity 穿着盔甲的实体喵~
+	 * @param stack 盔甲物品堆叠喵~
+	 * @param slot 物品所在的槽位 ID 喵~
+	 * @param type 子类型，可以为 null 或 "overlay" 喵~
+	 * @return 指向盔甲纹理的资源位置喵~
 	 */
 	public ResourceLocation getInnerArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
 		String location = String.format(Locale.ROOT, MODID + ":textures/models/maid/maid_outfit.png");
@@ -109,13 +164,13 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 	}
 
 	/**
-	 * More generic ForgeHook version, which allows for Items to have more control over what texture they provide.
+	 * 获取外层盔甲纹理资源位置，允许物品对纹理有更多控制喵~
 	 *
-	 * @param entity Entity wearing the armor
-	 * @param stack ItemStack for the armor
-	 * @param slot Slot ID that the item is in
-	 * @param type Subtype, can be null or "overlay"
-	 * @return ResourceLocation pointing at the armor's texture
+	 * @param entity 穿着盔甲的实体喵~
+	 * @param stack 盔甲物品堆叠喵~
+	 * @param slot 物品所在的槽位 ID 喵~
+	 * @param type 子类型，可以为 null 或 "overlay" 喵~
+	 * @return 指向盔甲纹理的资源位置喵~
 	 */
 	public ResourceLocation getOuterArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
 		String location = String.format(Locale.ROOT, MODID + ":textures/models/maid/maid_outfit_hns.png");
