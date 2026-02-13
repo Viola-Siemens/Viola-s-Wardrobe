@@ -2,9 +2,14 @@
   "required": true,
   "package": "com.hexagram2021.violas_wardrobe.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "ecnu.refmap.json",
+  "refmap": "violas_wardrobe.refmap.json",
   "mixins": [
-    "LivingEntityMixin",
+    "buoyant.LivingEntityMixin",
+    "charming.VillagerEntityMixin",
+    "light_footing.PlayerEntityMixin",
+    "lumina.HurtByTargetGoalMixin",
+    "lumina.MobEntityMixin",
+    "sweat_tracing.BeeEntityMixin",
     "taming.CatEntityMixin",
     "taming.ParrotEntityMixin",
     "taming.WolfEntityMixin"

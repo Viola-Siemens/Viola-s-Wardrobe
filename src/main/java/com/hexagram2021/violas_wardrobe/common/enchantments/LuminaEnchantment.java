@@ -5,16 +5,16 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 /**
- * 轻飘飘附魔，减缓生物下坠、提供下落保护喵~
+ * 流光附魔，减缓生物下坠、提供下落保护喵~
  *
  * @author liudongyu
  */
-public class BuoyantEnchantment extends Enchantment {
+public class LuminaEnchantment extends Enchantment {
 	/**
-	 * 构造轻飘飘附魔喵~
+	 * 构造流光附魔喵~
 	 */
-	public BuoyantEnchantment() {
-		super(Enchantment.Rarity.RARE, VWEnchantmentCategories.VIOLAS_WARDROBE_CHEST, new EquipmentSlot[]{EquipmentSlot.CHEST});
+	public LuminaEnchantment() {
+		super(Rarity.VERY_RARE, VWEnchantmentCategories.VIOLAS_WARDROBE_LEGS, new EquipmentSlot[]{EquipmentSlot.LEGS});
 	}
 
 	/**

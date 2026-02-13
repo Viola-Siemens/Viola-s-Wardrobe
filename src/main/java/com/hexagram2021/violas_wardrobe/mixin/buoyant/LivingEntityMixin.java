@@ -1,7 +1,6 @@
-package com.hexagram2021.violas_wardrobe.mixin;
+package com.hexagram2021.violas_wardrobe.mixin.buoyant;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
-import com.hexagram2021.violas_wardrobe.common.utils.MathUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 生命实体注入，实现轻飘飘附魔效果喵~
+ * 生命实体 Mixin，实现轻飘飘附魔效果喵~
  *
  * @author liudongyu
  */
@@ -41,9 +40,12 @@ public class LivingEntityMixin {
 			for(ItemStack itemStack: self.getArmorSlots()) {
 				maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.BUOYANT.get()));
 			}
+			if(maxLevel > 7) {
+				maxLevel = 7;
+			}
 			int factor = 5 + maxLevel;
 			this.violas_wardrobe$buoyantCheckTicks = 4 * SharedConstants.TICKS_PER_SECOND - 4 * maxLevel;
-			if(maxLevel > 0 && self.fallDistance >= 6.0F - 2.0F * MathUtils.sigmoid(maxLevel - 1.0D)) {
+			if(maxLevel > 0 && self.fallDistance >= 4.0F) {
 				self.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 4 * factor));
 				self.addEffect(new MobEffectInstance(MobEffects.LEVITATION, factor - 2));
 			}

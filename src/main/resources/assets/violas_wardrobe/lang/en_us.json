@@ -9,5 +9,17 @@
   "item.violas_wardrobe.maid_thigh_highs": "Maid thigh highs",
 
   "enchantment.violas_wardrobe.buoyant": "Buoyant",
-  "enchantment.violas_wardrobe.taming": "Taming"
+  "enchantment.violas_wardrobe.buoyant.desc": "Obtains a slow falling effect after falling for a certain distance.",
+  "enchantment.violas_wardrobe.charming": "Charming",
+  "enchantment.violas_wardrobe.charming.desc": "Slightly reduces the price when players trade with villagers.",
+  "enchantment.violas_wardrobe.laceward": "Laceward",
+  "enchantment.violas_wardrobe.laceward.desc": "Reduces magic damage.",
+  "enchantment.violas_wardrobe.light_footing": "Light Footing",
+  "enchantment.violas_wardrobe.light_footing.desc": "Reduces food level consumption caused by jumping and moving.",
+  "enchantment.violas_wardrobe.lumina": "Lumina",
+  "enchantment.violas_wardrobe.lumina.desc": "Leaves starlight particle on the trajectory of skirt movement. There is a small probability that they will fall into a confused state, thus randomly changing their attack targets when attacking groups of monsters.",
+  "enchantment.violas_wardrobe.sweat_tracing": "Sweat Tracing",
+  "enchantment.violas_wardrobe.sweat_tracing.desc": "Helps bees nearby collect nectar and produce honey faster.",
+  "enchantment.violas_wardrobe.taming": "Taming",
+  "enchantment.violas_wardrobe.taming.desc": "Improve the probability of success for players to tame animals."
 }

@@ -9,5 +9,17 @@
   "item.violas_wardrobe.maid_thigh_highs": "女仆大腿袜",
 
   "enchantment.violas_wardrobe.buoyant": "轻飘飘",
-  "enchantment.violas_wardrobe.taming": "动物亲和"
+  "enchantment.violas_wardrobe.buoyant.desc": "坠落一定高度后获得短暂的缓降效果。",
+  "enchantment.violas_wardrobe.charming": "妩媚",
+  "enchantment.violas_wardrobe.charming.desc": "小幅降低玩家与村民交易时的价格。",
+  "enchantment.violas_wardrobe.laceward": "纤护",
+  "enchantment.violas_wardrobe.laceward.desc": "减少魔法伤害。",
+  "enchantment.violas_wardrobe.light_footing": "步伐轻盈",
+  "enchantment.violas_wardrobe.light_footing.desc": "降低跳跃和移动带来的饥饿值消耗。",
+  "enchantment.violas_wardrobe.lumina": "流光",
+  "enchantment.violas_wardrobe.lumina.desc": "在裙摆移动的轨迹上留下星光粒子，攻击成群的怪物时会小概率使其陷入迷惑状态，从而随机改变他们的攻击目标。",
+  "enchantment.violas_wardrobe.sweat_tracing": "芳踪",
+  "enchantment.violas_wardrobe.sweat_tracing.desc": "帮助周围的蜜蜂更快收集花蜜和生产蜂蜜。",
+  "enchantment.violas_wardrobe.taming": "动物亲和",
+  "enchantment.violas_wardrobe.taming.desc": "提高玩家驯服动物的概率。"
 }

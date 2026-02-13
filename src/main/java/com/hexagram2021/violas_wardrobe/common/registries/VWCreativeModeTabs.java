@@ -22,7 +22,7 @@ public final class VWCreativeModeTabs {
 	/**
 	 * 主标签页，包含模组的所有物品喵~
 	 */
-	public static final RegistryObject<CreativeModeTab> ECNU = REGISTER.register(
+	public static final RegistryObject<CreativeModeTab> MAIN = REGISTER.register(
 			"main", () -> CreativeModeTab.builder()
 					.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
 					.title(Component.translatable("itemGroup.violas_wardrobe"))
