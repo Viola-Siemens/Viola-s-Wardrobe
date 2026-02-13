@@ -7,7 +7,6 @@
     "buoyant.LivingEntityMixin",
     "charming.VillagerEntityMixin",
     "light_footing.PlayerEntityMixin",
-    "lumina.HurtByTargetGoalMixin",
     "lumina.MobEntityMixin",
     "sweat_tracing.BeeEntityMixin",
     "taming.CatEntityMixin",

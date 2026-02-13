@@ -1,7 +1,9 @@
 package com.hexagram2021.violas_wardrobe.common.registries;
 
 import com.google.common.collect.Sets;
+import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -41,6 +43,54 @@ public final class VWItems {
 	 */
 	public static final ItemEntry<MaidOutfitItem> MAID_THIGH_HIGHS = ItemEntry.register(
 			"maid_thigh_highs", () -> new MaidOutfitItem(EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 女仆黑色长筒袜，装备在脚部槽位喵~
+	 */
+	public static final ItemEntry<MaidOutfitItem> MAID_BLACK_THIGH_HIGHS = ItemEntry.register(
+			"maid_black_thigh_highs", () -> new MaidOutfitItem(EquipmentSlot.FEET, new Item.Properties().stacksTo(1)) {
+				@Override
+				public ResourceLocation getInnerTexture() {
+					return new ResourceLocation(MODID, "textures/models/maid/maid_black_outfit.png");
+				}
+			}
+	);
+
+	/**
+	 * 藏青色 JK 制服夏服，装备在胸部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SUMMER = ItemEntry.register(
+			"jk_uniform_purplish_blue_summer", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.CHEST, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 藏青色 JK 制服裙，装备在腿部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SKIRT = ItemEntry.register(
+			"jk_uniform_purplish_blue_skirt", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.LEGS, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 藏青色 JK 制服鞋，装备在脚部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SHOES = ItemEntry.register(
+			"jk_uniform_purplish_blue_shoes", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 米色 JK 制服夏服，装备在胸部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SUMMER = ItemEntry.register(
+			"jk_uniform_cream_summer", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.CHEST, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 米色 JK 制服裙，装备在腿部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SKIRT = ItemEntry.register(
+			"jk_uniform_cream_skirt", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.LEGS, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 米色 JK 制服鞋，装备在脚部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SHOES = ItemEntry.register(
+			"jk_uniform_cream_shoes", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
 	);
 
 	private VWItems() {

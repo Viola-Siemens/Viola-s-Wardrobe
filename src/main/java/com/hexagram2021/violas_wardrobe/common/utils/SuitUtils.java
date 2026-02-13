@@ -19,9 +19,27 @@ public final class SuitUtils {
 	public static boolean isInMaidSuit(LivingEntity entity) {
 		return entity.getItemBySlot(EquipmentSlot.HEAD).getItem() == VWItems.MAID_HEADBAND.get() &&
 				entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == VWItems.MAID_DRESS.get() && (
-						entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.MAID_THIGH_HIGHS.get()
-						//TODO black thigh highs?
+						entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.MAID_THIGH_HIGHS.get() ||
+								entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.MAID_BLACK_THIGH_HIGHS.get()
 				);
+	}
+
+	/**
+	 * 检查实体是否穿着完整的 JK 制服喵~
+	 *
+	 * @param entity 待检查的生物实体喵~
+	 * @return 是否穿着完整的 JK 制服喵~
+	 */
+	public static boolean isInJKUniformSuit(LivingEntity entity) {
+		return (
+				entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == VWItems.JK_UNIFORM_PURPLISH_BLUE_SUMMER.get() &&
+				entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == VWItems.JK_UNIFORM_PURPLISH_BLUE_SKIRT.get() &&
+				entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.JK_UNIFORM_PURPLISH_BLUE_SHOES.get()
+		) || (
+				entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == VWItems.JK_UNIFORM_CREAM_SUMMER.get() &&
+				entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == VWItems.JK_UNIFORM_CREAM_SKIRT.get() &&
+				entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.JK_UNIFORM_CREAM_SHOES.get()
+		);
 	}
 
 	private SuitUtils() {

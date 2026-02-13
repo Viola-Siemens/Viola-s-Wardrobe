@@ -1,5 +1,6 @@
 package com.hexagram2021.violas_wardrobe.common.items;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.Level;
  *
  * @author liudongyu
  */
-public class BaseOutfitItem extends Item implements Equipable {
+public abstract class BaseOutfitItem extends Item implements Equipable {
 	private final EquipmentSlot slot;
 
 	/**
@@ -23,7 +24,7 @@ public class BaseOutfitItem extends Item implements Equipable {
 	 * @param slot 装备槽位喵~
 	 * @param properties 物品属性喵~
 	 */
-	public BaseOutfitItem(EquipmentSlot slot, Properties properties) {
+	protected BaseOutfitItem(EquipmentSlot slot, Properties properties) {
 		super(properties);
 		this.slot = slot;
 	}
@@ -37,6 +38,17 @@ public class BaseOutfitItem extends Item implements Equipable {
 	@Override
 	public int getEnchantmentValue() {
 		return 10;
+	}
+
+	/**
+	 * 检查物品堆叠是否可附魔，仅当堆叠数为 1 时可附魔喵~
+	 *
+	 * @param itemStack 待检查的物品堆叠喵~
+	 * @return 是否可附魔喵~
+	 */
+	@Override
+	public boolean isEnchantable(ItemStack itemStack) {
+		return itemStack.getCount() == 1;
 	}
 
 	/**
@@ -72,4 +84,18 @@ public class BaseOutfitItem extends Item implements Equipable {
 	public EquipmentSlot getEquipmentSlot(ItemStack itemStack) {
 		return this.slot;
 	}
+
+	/**
+	 * 获取装备的内层贴图喵~
+	 *
+	 * @return 装备的内层贴图喵~
+	 */
+	public abstract ResourceLocation getInnerTexture();
+
+	/**
+	 * 获取装备的外层贴图喵~
+	 *
+	 * @return 装备的外层贴图喵~
+	 */
+	public abstract ResourceLocation getOuterTexture();
 }

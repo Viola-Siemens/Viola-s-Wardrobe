@@ -1,7 +1,8 @@
 package com.hexagram2021.violas_wardrobe.mixin;
 
 import com.hexagram2021.violas_wardrobe.client.VWLayerLocations;
-import com.hexagram2021.violas_wardrobe.client.layers.MaidHeadbandAndSkirtLayer;
+import com.hexagram2021.violas_wardrobe.client.layers.ViolasWardrobeSkirtLayer;
+import com.hexagram2021.violas_wardrobe.client.models.JKUniformModel;
 import com.hexagram2021.violas_wardrobe.client.models.MaidHeadbandAndSkirtModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.ZombieModel;
@@ -24,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @SuppressWarnings({"unchecked", "java:S100"})
 public class AbstractZombieRendererMixin<T extends Zombie, M extends ZombieModel<T>> {
 	/**
-	 * 在僵尸渲染器构造方法末尾注入，添加女仆装模型图层喵~
+	 * 在僵尸渲染器构造方法末尾注入，添加女仆装、JK 制服模型图层喵~
 	 *
 	 * @param context 实体渲染器提供者上下文喵~
 	 * @param model 模型喵~
@@ -36,10 +37,15 @@ public class AbstractZombieRendererMixin<T extends Zombie, M extends ZombieModel
 	private void violas_wardrobe$addModelLayers(EntityRendererProvider.Context context, M model,
 												M innerModel, M outerModel, CallbackInfo ci) {
 		AbstractZombieRenderer<T, M> self = (AbstractZombieRenderer<T, M>)(Object)this;
-		self.addLayer(new MaidHeadbandAndSkirtLayer<>(
+		self.addLayer(new ViolasWardrobeSkirtLayer<>(
 				self,
 				new HumanoidArmorModel<>(context.bakeLayer(VWLayerLocations.MAID_MAIN)),
 				new MaidHeadbandAndSkirtModel<>(context.bakeLayer(VWLayerLocations.MAID_HNS))
+		));
+		self.addLayer(new ViolasWardrobeSkirtLayer<>(
+				self,
+				new HumanoidArmorModel<>(context.bakeLayer(VWLayerLocations.JK_UNIFORM_MAIN)),
+				new JKUniformModel<>(context.bakeLayer(VWLayerLocations.JK_UNIFORM_OUTER))
 		));
 	}
 }

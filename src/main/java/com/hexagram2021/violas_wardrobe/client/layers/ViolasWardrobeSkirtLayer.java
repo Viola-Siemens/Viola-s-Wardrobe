@@ -1,7 +1,9 @@
 package com.hexagram2021.violas_wardrobe.client.layers;
 
 import com.google.common.collect.Maps;
+import com.hexagram2021.violas_wardrobe.common.items.BaseOutfitItem;
 import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
+import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
@@ -23,10 +25,12 @@ import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
-
 /**
- * 女仆头饰和裙子渲染层，负责渲染女仆装的头饰、裙子和袖子部分喵~
+ * 模组各种带裙子套装的渲染层，可以渲染：
+ * <ol>
+ * <li>女仆装的头饰、裙子和袖子部分喵~</li>
+ * <li>JK 制服的领带、裙子和鞋子部分喵~</li>
+ * </ol>
  *
  * @param <T> 生物实体类型喵~
  * @param <M> 父模型类型喵~
@@ -35,7 +39,7 @@ import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
  * @author liudongyu
  */
 @SuppressWarnings("UnstableApiUsage")
-public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private static final Map<String, ResourceLocation> ARMOR_LOCATION_CACHE = Maps.newHashMap();
 	private final I innerModel;
 	private final O outerModel;
@@ -47,7 +51,7 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 	 * @param innerModel 内层模型喵~
 	 * @param outerModel 外层模型喵~
 	 */
-	public MaidHeadbandAndSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
+	public ViolasWardrobeSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
 		super(renderer);
 		this.innerModel = innerModel;
 		this.outerModel = outerModel;
@@ -158,7 +162,14 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 	 * @return 指向盔甲纹理的资源位置喵~
 	 */
 	public ResourceLocation getInnerArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
-		String location = String.format(Locale.ROOT, MODID + ":textures/models/maid/maid_outfit.png");
+		BaseOutfitItem item;
+		if(stack.getItem() instanceof BaseOutfitItem baseOutfitItem) {
+			item = baseOutfitItem;
+		} else {
+			// Should NEVER reach...
+			item = VWItems.MAID_DRESS.get();
+		}
+		String location = String.format(Locale.ROOT, item.getInnerTexture().toString());
 		location = ForgeHooksClient.getArmorTexture(entity, stack, location, slot, type);
 		return ARMOR_LOCATION_CACHE.computeIfAbsent(location, ResourceLocation::new);
 	}
@@ -173,7 +184,14 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 	 * @return 指向盔甲纹理的资源位置喵~
 	 */
 	public ResourceLocation getOuterArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
-		String location = String.format(Locale.ROOT, MODID + ":textures/models/maid/maid_outfit_hns.png");
+		BaseOutfitItem item;
+		if(stack.getItem() instanceof BaseOutfitItem baseOutfitItem) {
+			item = baseOutfitItem;
+		} else {
+			// Should NEVER reach...
+			item = VWItems.MAID_DRESS.get();
+		}
+		String location = String.format(Locale.ROOT, item.getOuterTexture().toString());
 		location = ForgeHooksClient.getArmorTexture(entity, stack, location, slot, type);
 		return ARMOR_LOCATION_CACHE.computeIfAbsent(location, ResourceLocation::new);
 	}

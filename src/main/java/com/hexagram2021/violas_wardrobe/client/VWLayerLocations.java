@@ -23,6 +23,15 @@ public class VWLayerLocations {
 	 */
 	public static final ModelLayerLocation MAID_HNS = new ModelLayerLocation(new ResourceLocation(MODID, "maid"), "hns");
 
+	/**
+	 * JK 制服主体盔甲模型图层位置喵~
+	 */
+	public static final ModelLayerLocation JK_UNIFORM_MAIN = new ModelLayerLocation(new ResourceLocation(MODID, "jk_uniform"), "armor");
+	/**
+	 * JK 制服领带、裙子和鞋袜模型图层位置喵~
+	 */
+	public static final ModelLayerLocation JK_UNIFORM_OUTER = new ModelLayerLocation(new ResourceLocation(MODID, "jk_uniform"), "outer");
+
 	private VWLayerLocations() {
 	}
 }
