@@ -192,7 +192,7 @@ minecraft {
 
 - **MODID**: `"violas_wardrobe"` (defined in `ViolasWardrobeForge.MODID`)
 - **Mod Version**: Defined in `gradle.properties` as `mod_version=1.0.1`
-- **Mixin Refmap**: `ecnu.refmap.json` (configured in `violas_wardrobe.mixins.json`)
+- **Mixin Refmap**: `violas_wardrobe.refmap.json` (configured in `violas_wardrobe.mixins.json`)
 
 ## Development Notes
 
