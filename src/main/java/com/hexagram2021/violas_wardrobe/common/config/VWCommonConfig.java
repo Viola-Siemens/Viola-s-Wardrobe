@@ -53,7 +53,7 @@ public final class VWCommonConfig {
 		CLOTHES_DROP_CHANCE = BUILDER.comment("The possibility of clothes drop.")
 				.defineInRange("CLOTHES_DROP_CHANCE", 0.085D, 0.0D, 1.0D);
 		VILLAGE_CHEST_CHANCE = BUILDER.comment("The possibility of clothes show up in villagers' chests.")
-				.defineInRange("VILLAGE_CHEST_CHANCE", 0.2D, 0.0D, 1.0D);
+				.defineInRange("VILLAGE_CHEST_CHANCE", 0.375D, 0.0D, 1.0D);
 		BUILDER.pop();
 
 		SPEC = BUILDER.build();
