@@ -39,26 +39,26 @@ import java.util.Map;
  * @author liudongyu
  */
 @SuppressWarnings("UnstableApiUsage")
-public class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private static final Map<String, ResourceLocation> ARMOR_LOCATION_CACHE = Maps.newHashMap();
-	private final I innerModel;
-	private final O outerModel;
+	protected final I innerModel;
+	protected final O outerModel;
 
 	/**
-	 * 构造女仆头饰和裙子渲染层喵~
+	 * 构造套装渲染层喵~
 	 *
 	 * @param renderer 渲染器父对象喵~
 	 * @param innerModel 内层模型喵~
 	 * @param outerModel 外层模型喵~
 	 */
-	public ViolasWardrobeSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
+	protected ViolasWardrobeSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
 		super(renderer);
 		this.innerModel = innerModel;
 		this.outerModel = outerModel;
 	}
 
 	/**
-	 * 渲染女仆装的各个部件喵~
+	 * 渲染套装的各个部件喵~
 	 *
 	 * @param transform 姿态变换矩阵喵~
 	 * @param buffer 多缓冲区源喵~
@@ -95,8 +95,8 @@ public class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends Humanoid
 		if (item instanceof MaidOutfitItem maidOutfitItem && maidOutfitItem.getEquipmentSlot() == slot) {
 			this.getParentModel().copyPropertiesTo(this.innerModel);
 			this.getParentModel().copyPropertiesTo(this.outerModel);
-			setPartVisibility(this.innerModel, slot);
-			setPartVisibility(this.outerModel, slot);
+			this.setInnerPartVisibility(slot);
+			this.setOuterPartVisibility(slot);
 			Model inner = ForgeHooksClient.getArmorModel(entity, itemstack, slot, this.innerModel);
 			renderModel(transform, buffer, packedLight, inner, this.getInnerArmorResource(entity, itemstack, slot, null));
 			Model outer = ForgeHooksClient.getArmorModel(entity, itemstack, slot, this.outerModel);
@@ -107,36 +107,18 @@ public class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends Humanoid
 	}
 
 	/**
-	 * 根据装备槽位设置模型部件的可见性喵~
+	 * 根据装备槽位设置内层模型部件的可见性喵~
 	 *
-	 * @param <T> 生物实体类型喵~
-	 * @param model 人形模型喵~
 	 * @param slot 装备槽位喵~
 	 */
-	protected static <T extends LivingEntity> void setPartVisibility(HumanoidModel<T> model, EquipmentSlot slot) {
-		model.setAllVisible(false);
-		switch (slot) {
-			case HEAD -> {
-				model.head.visible = true;
-				model.hat.visible = true;
-			}
-			case CHEST -> {
-				model.body.visible = true;
-				model.rightArm.visible = true;
-				model.leftArm.visible = true;
-			}
-			case LEGS -> {
-				model.body.visible = true;
-				model.rightLeg.visible = true;
-				model.leftLeg.visible = true;
-			}
-			case FEET -> {
-				model.rightLeg.visible = true;
-				model.leftLeg.visible = true;
-			}
-			default -> throw new IllegalArgumentException("Unexpected slot: " + slot);
-		}
-	}
+	protected abstract void setInnerPartVisibility(EquipmentSlot slot);
+
+	/**
+	 * 根据装备槽位设置外层模型部件的可见性喵~
+	 *
+	 * @param slot 装备槽位喵~
+	 */
+	protected abstract void setOuterPartVisibility(EquipmentSlot slot);
 
 	/**
 	 * 渲染模型到缓冲区喵~
