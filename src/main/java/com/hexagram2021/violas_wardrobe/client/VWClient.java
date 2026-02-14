@@ -3,6 +3,7 @@ package com.hexagram2021.violas_wardrobe.client;
 import com.hexagram2021.violas_wardrobe.client.config.VWClientConfig;
 import com.hexagram2021.violas_wardrobe.client.models.JKUniformModel;
 import com.hexagram2021.violas_wardrobe.client.models.MaidHeadbandAndSkirtModel;
+import com.hexagram2021.violas_wardrobe.client.models.ThinkingHatModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -42,6 +43,10 @@ public final class VWClient {
 		event.registerLayerDefinition(
 				VWLayerLocations.JK_UNIFORM_OUTER,
 				JKUniformModel::createBodyLayer
+		);
+		event.registerLayerDefinition(
+				VWLayerLocations.THINKING_HAT,
+				ThinkingHatModel::createBodyLayer
 		);
 	}
 

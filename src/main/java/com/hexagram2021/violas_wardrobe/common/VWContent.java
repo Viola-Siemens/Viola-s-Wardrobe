@@ -40,6 +40,12 @@ public final class VWContent {
 		DispenserBlock.registerBehavior(VWItems.JK_UNIFORM_CREAM_SUMMER, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 		DispenserBlock.registerBehavior(VWItems.JK_UNIFORM_CREAM_SKIRT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 		DispenserBlock.registerBehavior(VWItems.JK_UNIFORM_CREAM_SHOES, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.BLUE_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.YELLOW_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.BLACK_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.RED_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.WHITE_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		DispenserBlock.registerBehavior(VWItems.GREEN_THINKING_HAT, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 	}
 
 	private VWContent() {

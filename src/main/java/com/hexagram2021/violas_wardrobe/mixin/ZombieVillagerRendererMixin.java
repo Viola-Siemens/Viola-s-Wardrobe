@@ -3,8 +3,10 @@ package com.hexagram2021.violas_wardrobe.mixin;
 import com.hexagram2021.violas_wardrobe.client.VWLayerLocations;
 import com.hexagram2021.violas_wardrobe.client.layers.JKSkirtLayer;
 import com.hexagram2021.violas_wardrobe.client.layers.MaidHeadbandAndSkirtLayer;
+import com.hexagram2021.violas_wardrobe.client.layers.ThinkingHatLayer;
 import com.hexagram2021.violas_wardrobe.client.models.JKUniformModel;
 import com.hexagram2021.violas_wardrobe.client.models.MaidHeadbandAndSkirtModel;
+import com.hexagram2021.violas_wardrobe.client.models.ThinkingHatModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ZombieVillagerRenderer;
@@ -39,6 +41,10 @@ public class ZombieVillagerRendererMixin {
 				self,
 				new HumanoidArmorModel<>(context.bakeLayer(VWLayerLocations.JK_UNIFORM_MAIN)),
 				new JKUniformModel<>(context.bakeLayer(VWLayerLocations.JK_UNIFORM_OUTER))
+		));
+		self.addLayer(new ThinkingHatLayer<>(
+				self,
+				new ThinkingHatModel<>(context.bakeLayer(VWLayerLocations.THINKING_HAT))
 		));
 	}
 }

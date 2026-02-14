@@ -3,6 +3,7 @@ package com.hexagram2021.violas_wardrobe.common.registries;
 import com.google.common.collect.Sets;
 import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
+import com.hexagram2021.violas_wardrobe.common.items.ThinkingHatItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
@@ -12,9 +13,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
@@ -52,6 +54,11 @@ public final class VWItems {
 				@Override
 				public ResourceLocation getInnerTexture() {
 					return new ResourceLocation(MODID, "textures/models/maid/maid_black_outfit.png");
+				}
+
+				@Override
+				public ResourceLocation getOuterTexture() {
+					return new ResourceLocation(MODID, "textures/models/maid/maid_black_outfit_hns.png");
 				}
 			}
 	);
@@ -93,6 +100,43 @@ public final class VWItems {
 			"jk_uniform_cream_shoes", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
 	);
 
+	/**
+	 * 蓝色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> BLUE_THINKING_HAT = ItemEntry.register(
+			"blue_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.BLUE, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 黄色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> YELLOW_THINKING_HAT = ItemEntry.register(
+			"yellow_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.YELLOW, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 黑色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> BLACK_THINKING_HAT = ItemEntry.register(
+			"black_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.BLACK, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 红色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> RED_THINKING_HAT = ItemEntry.register(
+			"red_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.RED, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 白色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> WHITE_THINKING_HAT = ItemEntry.register(
+			"white_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.WHITE, new Item.Properties().stacksTo(1))
+	);
+	/**
+	 * 绿色思考帽，装备在头部槽位喵~
+	 */
+	public static final ItemEntry<ThinkingHatItem> GREEN_THINKING_HAT = ItemEntry.register(
+			"green_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.GREEN, new Item.Properties().stacksTo(1))
+	);
+
 	private VWItems() {
 	}
 
@@ -111,7 +155,7 @@ public final class VWItems {
 	 * @param <T> 物品类型喵~
 	 * @param item 注册对象喵~
 	 */
-	public record ItemEntry<T extends Item>(RegistryObject<T> item) implements Supplier<T>, ItemLike {
+	public record ItemEntry<T extends Item>(String name, RegistryObject<T> item) implements Supplier<T>, ItemLike {
 		private static final Set<ItemEntry<?>> ITEMS = Sets.newIdentityHashSet();
 
 		/**
@@ -123,7 +167,7 @@ public final class VWItems {
 		 * @return 物品条目喵~
 		 */
 		private static <T extends Item> ItemEntry<T> register(String name, Supplier<? extends T> make) {
-			ItemEntry<T> item = new ItemEntry<>(REGISTER.register(name, make));
+			ItemEntry<T> item = new ItemEntry<>(name, REGISTER.register(name, make));
 			ITEMS.add(item);
 			return item;
 		}
@@ -153,8 +197,8 @@ public final class VWItems {
 		 *
 		 * @return 不可修改的物品条目集合喵~
 		 */
-		static Set<ItemEntry<?>> getItems() {
-			return Collections.unmodifiableSet(ITEMS);
+		static Stream<ItemEntry<?>> getItems() {
+			return ITEMS.stream().sorted(Comparator.comparing(ItemEntry::name));
 		}
 	}
 }

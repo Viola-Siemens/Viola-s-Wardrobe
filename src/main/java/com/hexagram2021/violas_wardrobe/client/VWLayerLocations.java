@@ -14,10 +14,12 @@ import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
  */
 @OnlyIn(Dist.CLIENT)
 public class VWLayerLocations {
+	private static final String MAIN_ARMOR_NAME = "main";
+
 	/**
 	 * 女仆装主体盔甲模型图层位置喵~
 	 */
-	public static final ModelLayerLocation MAID_MAIN = new ModelLayerLocation(new ResourceLocation(MODID, "maid"), "armor");
+	public static final ModelLayerLocation MAID_MAIN = new ModelLayerLocation(new ResourceLocation(MODID, "maid"), MAIN_ARMOR_NAME);
 	/**
 	 * 女仆头饰和裙子模型图层位置喵~
 	 */
@@ -26,11 +28,16 @@ public class VWLayerLocations {
 	/**
 	 * JK 制服主体盔甲模型图层位置喵~
 	 */
-	public static final ModelLayerLocation JK_UNIFORM_MAIN = new ModelLayerLocation(new ResourceLocation(MODID, "jk_uniform"), "armor");
+	public static final ModelLayerLocation JK_UNIFORM_MAIN = new ModelLayerLocation(new ResourceLocation(MODID, "jk_uniform"), MAIN_ARMOR_NAME);
 	/**
 	 * JK 制服领带、裙子和鞋袜模型图层位置喵~
 	 */
 	public static final ModelLayerLocation JK_UNIFORM_OUTER = new ModelLayerLocation(new ResourceLocation(MODID, "jk_uniform"), "outer");
+
+	/**
+	 * 思考帽模型图层位置喵~
+	 */
+	public static final ModelLayerLocation THINKING_HAT = new ModelLayerLocation(new ResourceLocation(MODID, "thinking_hat"), MAIN_ARMOR_NAME);
 
 	private VWLayerLocations() {
 	}

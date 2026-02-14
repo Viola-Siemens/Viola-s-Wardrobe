@@ -10,22 +10,21 @@ import java.util.Locale;
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
 /**
- * JK 制服物品类，实现 JK 制服的特殊行为喵~
+ * 思考帽物品类，实现思考帽的特殊行为喵~
  *
  * @author liudongyu
  */
-public class JKUniformItem extends BaseOutfitItem {
+public class ThinkingHatItem extends BaseOutfitItem {
 	private final Variant variant;
 
 	/**
-	 * 构造 JK 制服物品喵~
+	 * 构造思考帽物品喵~
 	 *
 	 * @param variant 颜色变体喵~
-	 * @param slot 装备槽位喵~
 	 * @param properties 物品属性喵~
 	 */
-	public JKUniformItem(Variant variant, EquipmentSlot slot, Properties properties) {
-		super(slot, properties);
+	public ThinkingHatItem(Variant variant, Properties properties) {
+		super(EquipmentSlot.HEAD, properties);
 		this.variant = variant;
 	}
 
@@ -46,7 +45,7 @@ public class JKUniformItem extends BaseOutfitItem {
 	 */
 	@Override
 	public ResourceLocation getInnerTexture() {
-		return new ResourceLocation(MODID, "textures/models/jk_uniform/jk_" + this.variantName() + "_inner.png");
+		return new ResourceLocation(MODID, "textures/models/thinking_hat/" + this.variantName() + ".png");
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class JKUniformItem extends BaseOutfitItem {
 	 */
 	@Override
 	public ResourceLocation getOuterTexture() {
-		return new ResourceLocation(MODID, "textures/models/jk_uniform/jk_" + this.variantName() + "_outer.png");
+		return new ResourceLocation(MODID, "textures/models/thinking_hat/" + this.variantName() + ".png");
 	}
 
 	public String variantName() {
@@ -65,12 +64,28 @@ public class JKUniformItem extends BaseOutfitItem {
 
 	public enum Variant {
 		/**
-		 * 藏青色喵~
+		 * 蓝色喵~
 		 */
-		PURPLISH_BLUE,
+		BLUE,
 		/**
-		 * 米色喵~
+		 * 黄色喵~
 		 */
-		CREAM
+		YELLOW,
+		/**
+		 * 黑色喵~
+		 */
+		BLACK,
+		/**
+		 * 红色喵~
+		 */
+		RED,
+		/**
+		 * 白色喵~
+		 */
+		WHITE,
+		/**
+		 * 绿色喵~
+		 */
+		GREEN
 	}
 }
