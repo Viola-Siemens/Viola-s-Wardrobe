@@ -1,5 +1,7 @@
 package com.hexagram2021.violas_wardrobe.client.models;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
  * @param <T> 生物实体类型喵~
  * @author liudongyu
  */
-public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidModel<T> implements ISkirtModel {
+	private final ModelPart skirt;
+
 	/**
 	 * 构造女仆头饰和裙子模型喵~
 	 *
@@ -20,6 +24,7 @@ public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidM
 	 */
 	public MaidHeadbandAndSkirtModel(ModelPart root) {
 		super(root);
+		this.skirt = root.getChild("skirt");
 	}
 
 	/**
@@ -41,8 +46,12 @@ public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidM
 				PartPose.offset(0.0F, -3.0F, 0.0F)
 		);
 		partdefinition.addOrReplaceChild(
-				"body", CubeListBuilder.create().texOffs(16, 26)
-						.addBox(-4.0F, 11.25F, -2.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(1.0F)),
+				"body", CubeListBuilder.create(),
+				PartPose.ZERO
+		);
+		partdefinition.addOrReplaceChild(
+				"skirt", CubeListBuilder.create().texOffs(16, 26)
+						.addBox(-4.0F, 11.25F, -2.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(1.125F)),
 				PartPose.ZERO
 		);
 		partdefinition.addOrReplaceChild(
@@ -67,5 +76,52 @@ public class MaidHeadbandAndSkirtModel<T extends LivingEntity> extends HumanoidM
 		);
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
+	}
+
+	/**
+	 * 获取所有身体部件喵~
+	 *
+	 * @return 所有身体部件喵~
+	 */
+	@Override
+	protected Iterable<ModelPart> bodyParts() {
+		return Iterables.concat(super.bodyParts(), ImmutableList.of(this.skirt));
+	}
+
+	/**
+	 * 设置所有部件的可见性喵~
+	 *
+	 * @param visible 是否可见喵~
+	 */
+	@Override
+	public void setAllVisible(boolean visible) {
+		super.setAllVisible(visible);
+		this.skirt.visible = visible;
+	}
+
+	/**
+	 * 设置模型的动画状态喵~
+	 *
+	 * @param entity 实体喵~
+	 * @param limbSwing 肢体摆动喵~
+	 * @param limbSwingAmount 肢体摆动幅度喵~
+	 * @param ageInTicks 总刻数喵~
+	 * @param netHeadYaw 头部偏航角喵~
+	 * @param headPitch 头部俯仰角喵~
+	 */
+	@Override
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+		this.skirt.copyFrom(this.body);
+	}
+
+	/**
+	 * 获取裙子部件喵~
+	 *
+	 * @return 裙子部件喵~
+	 */
+	@Override
+	public ModelPart getSkirt() {
+		return this.skirt;
 	}
 }

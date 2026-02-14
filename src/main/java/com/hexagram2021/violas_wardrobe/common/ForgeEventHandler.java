@@ -32,7 +32,7 @@ public final class ForgeEventHandler {
 				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.LUMINA.get()))
 				.max().orElse(0);
 		if(maxLevel > 0 && event.getTarget() instanceof ILuminaAffectable monster &&
-				player.getRandom().nextDouble() < MathUtils.sigmoid(maxLevel * 0.5D - 0.5D)) {
+				player.getRandom().nextDouble() < MathUtils.sigmoid(maxLevel * 0.25D) - 0.5D) {
 			monster.violas_wardrobe$setLuminaActivatedTick(event.getTarget().tickCount);
 		}
 	}
@@ -50,7 +50,7 @@ public final class ForgeEventHandler {
 			for(ItemStack itemStack: livingEntity.getArmorSlots()) {
 				maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.LUMINA.get()));
 			}
-			for(int i = 0; i < maxLevel; ++i) {
+			if(maxLevel > 0 && livingEntity.tickCount % (12 / maxLevel) == 0) {
 				livingEntity.level().addParticle(
 						ParticleTypes.WAX_OFF,
 						livingEntity.getX() + livingEntity.getRandom().nextDouble() * 0.4D - 0.2D,

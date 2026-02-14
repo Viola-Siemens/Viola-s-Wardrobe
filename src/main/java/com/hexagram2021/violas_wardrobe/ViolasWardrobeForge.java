@@ -1,8 +1,11 @@
 package com.hexagram2021.violas_wardrobe;
 
+import com.hexagram2021.violas_wardrobe.client.config.VWClientConfig;
 import com.hexagram2021.violas_wardrobe.common.VWContent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -26,6 +29,7 @@ public class ViolasWardrobeForge {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		VWContent.modConstruction(modBus);
 		modBus.addListener(ViolasWardrobeForge::onCommonSetup);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, VWClientConfig.getSpec());
 	}
 
 	/**

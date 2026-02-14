@@ -1,6 +1,7 @@
 {
   "values": [
-    "minecraft:magic",
-    "minecraft:sonic_boom"
+    "minecraft:indirect_magic",
+    "minecraft:lightning_bolt",
+    "minecraft:magic"
   ]
 }

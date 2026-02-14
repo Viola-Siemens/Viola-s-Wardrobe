@@ -1,8 +1,8 @@
 package com.hexagram2021.violas_wardrobe.client.layers;
 
 import com.google.common.collect.Maps;
+import com.hexagram2021.violas_wardrobe.client.models.ISkirtModel;
 import com.hexagram2021.violas_wardrobe.common.items.BaseOutfitItem;
-import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
 import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -39,7 +39,7 @@ import java.util.Map;
  * @author liudongyu
  */
 @SuppressWarnings("UnstableApiUsage")
-public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T> & ISkirtModel> extends RenderLayer<T, M> {
 	private static final Map<String, ResourceLocation> ARMOR_LOCATION_CACHE = Maps.newHashMap();
 	protected final I innerModel;
 	protected final O outerModel;
@@ -92,7 +92,7 @@ public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends
 	private void renderArmorPiece(PoseStack transform, MultiBufferSource buffer, T entity, EquipmentSlot slot, int packedLight) {
 		ItemStack itemstack = entity.getItemBySlot(slot);
 		Item item = itemstack.getItem();
-		if (item instanceof MaidOutfitItem maidOutfitItem && maidOutfitItem.getEquipmentSlot() == slot) {
+		if (this.shouldRenderArmor(item, slot)) {
 			this.getParentModel().copyPropertiesTo(this.innerModel);
 			this.getParentModel().copyPropertiesTo(this.outerModel);
 			this.setInnerPartVisibility(slot);
@@ -105,6 +105,14 @@ public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends
 			// Do we really need renderGlint?
 		}
 	}
+
+	/**
+	 * 物品是否应该作为衣服被 Layer 渲染喵？
+	 * @param item 物品喵~
+	 * @param slot 槽位喵~
+	 * @return 是否应该被渲染喵~
+	 */
+	protected abstract boolean shouldRenderArmor(Item item, EquipmentSlot slot);
 
 	/**
 	 * 根据装备槽位设置内层模型部件的可见性喵~

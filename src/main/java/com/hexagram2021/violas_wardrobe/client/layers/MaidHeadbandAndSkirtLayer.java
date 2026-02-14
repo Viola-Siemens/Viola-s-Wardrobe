@@ -1,9 +1,12 @@
 package com.hexagram2021.violas_wardrobe.client.layers;
 
+import com.hexagram2021.violas_wardrobe.client.models.ISkirtModel;
+import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 
 /**
  * 女仆装套装的渲染层喵~
@@ -14,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
  * @param <O> 外层模型类型喵~
  * @author liudongyu
  */
-public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends ViolasWardrobeSkirtLayer<T, M, I, O> {
+public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T> & ISkirtModel> extends ViolasWardrobeSkirtLayer<T, M, I, O> {
 	/**
 	 * 构造女仆装套装渲染层喵~
 	 *
@@ -24,6 +27,17 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 	 */
 	public MaidHeadbandAndSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
 		super(renderer, innerModel, outerModel);
+	}
+
+	/**
+	 * 物品是否应该作为衣服被 Layer 渲染喵？
+	 * @param item 物品喵~
+	 * @param slot 槽位喵~
+	 * @return 是否应该被渲染喵~
+	 */
+	@Override
+	protected boolean shouldRenderArmor(Item item, EquipmentSlot slot) {
+		return item instanceof MaidOutfitItem maidOutfitItem && maidOutfitItem.getEquipmentSlot() == slot;
 	}
 
 	/**
@@ -67,6 +81,7 @@ public class MaidHeadbandAndSkirtLayer<T extends LivingEntity, M extends Humanoi
 			}
 			case CHEST -> {
 				this.outerModel.body.visible = true;
+				this.outerModel.getSkirt().visible = true;
 				this.outerModel.rightArm.visible = true;
 				this.outerModel.leftArm.visible = true;
 			}

@@ -1,9 +1,12 @@
 package com.hexagram2021.violas_wardrobe.client.layers;
 
+import com.hexagram2021.violas_wardrobe.client.models.ISkirtModel;
+import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 
 /**
  * JK 制服套装的渲染层喵~
@@ -14,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
  * @param <O> 外层模型类型喵~
  * @author liudongyu
  */
-public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T>> extends ViolasWardrobeSkirtLayer<T, M, I, O> {
+public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I extends HumanoidModel<T>, O extends HumanoidModel<T> & ISkirtModel> extends ViolasWardrobeSkirtLayer<T, M, I, O> {
 	/**
 	 * 构造 JK 制服套装渲染层喵~
 	 *
@@ -24,6 +27,17 @@ public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I 
 	 */
 	public JKSkirtLayer(RenderLayerParent<T, M> renderer, I innerModel, O outerModel) {
 		super(renderer, innerModel, outerModel);
+	}
+
+	/**
+	 * 物品是否应该作为衣服被 Layer 渲染喵？
+	 * @param item 物品喵~
+	 * @param slot 槽位喵~
+	 * @return 是否应该被渲染喵~
+	 */
+	@Override
+	protected boolean shouldRenderArmor(Item item, EquipmentSlot slot) {
+		return item instanceof JKUniformItem uniformItem && uniformItem.getEquipmentSlot() == slot;
 	}
 
 	/**
@@ -44,7 +58,10 @@ public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I 
 				this.innerModel.rightArm.visible = true;
 				this.innerModel.leftArm.visible = true;
 			}
-			case LEGS, FEET -> {
+			case LEGS -> {
+				// Nothing's for legs to render.
+			}
+			case FEET -> {
 				this.innerModel.rightLeg.visible = true;
 				this.innerModel.leftLeg.visible = true;
 			}
@@ -61,13 +78,16 @@ public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I 
 	protected void setOuterPartVisibility(EquipmentSlot slot) {
 		this.outerModel.setAllVisible(false);
 		switch (slot) {
-			case HEAD -> this.outerModel.head.visible = true;
-			case CHEST -> {
+			case HEAD -> {
+				this.outerModel.head.visible = true;
 				this.outerModel.hat.visible = true;
+			}
+			case CHEST -> {
+				this.outerModel.body.visible = true;
 				this.outerModel.rightArm.visible = true;
 				this.outerModel.leftArm.visible = true;
 			}
-			case LEGS -> this.outerModel.body.visible = true;
+			case LEGS -> this.outerModel.getSkirt().visible = true;
 			case FEET -> {
 				this.outerModel.rightLeg.visible = true;
 				this.outerModel.leftLeg.visible = true;

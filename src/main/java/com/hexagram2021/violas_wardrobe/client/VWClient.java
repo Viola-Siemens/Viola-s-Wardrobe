@@ -1,5 +1,6 @@
 package com.hexagram2021.violas_wardrobe.client;
 
+import com.hexagram2021.violas_wardrobe.client.config.VWClientConfig;
 import com.hexagram2021.violas_wardrobe.client.models.JKUniformModel;
 import com.hexagram2021.violas_wardrobe.client.models.MaidHeadbandAndSkirtModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -28,7 +29,7 @@ public final class VWClient {
 	public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(
 				VWLayerLocations.MAID_MAIN,
-				() -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(0.25F)), 64, 32)
+				() -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(VWClientConfig.UNIFORM_INNER_GROWTH.get().floatValue())), 64, 32)
 		);
 		event.registerLayerDefinition(
 				VWLayerLocations.MAID_HNS,
@@ -36,7 +37,7 @@ public final class VWClient {
 		);
 		event.registerLayerDefinition(
 				VWLayerLocations.JK_UNIFORM_MAIN,
-				() -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(0.25F)), 64, 32)
+				() -> LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(VWClientConfig.UNIFORM_INNER_GROWTH.get().floatValue())), 64, 32)
 		);
 		event.registerLayerDefinition(
 				VWLayerLocations.JK_UNIFORM_OUTER,
