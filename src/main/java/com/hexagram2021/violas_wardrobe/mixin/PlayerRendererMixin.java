@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 玩家渲染器 Mixin，为玩家添加女仆装渲染层喵~
+ * 玩家渲染器 Mixin，为玩家添加女仆装、JK 制服渲染层喵~
  *
  * @author liudongyu
  */

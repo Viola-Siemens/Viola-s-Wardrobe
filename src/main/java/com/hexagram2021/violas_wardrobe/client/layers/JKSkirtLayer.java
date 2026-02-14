@@ -61,11 +61,9 @@ public class JKSkirtLayer<T extends LivingEntity, M extends HumanoidModel<T>, I 
 	protected void setOuterPartVisibility(EquipmentSlot slot) {
 		this.outerModel.setAllVisible(false);
 		switch (slot) {
-			case HEAD -> {
-				this.outerModel.head.visible = true;
-				this.outerModel.hat.visible = true;
-			}
+			case HEAD -> this.outerModel.head.visible = true;
 			case CHEST -> {
+				this.outerModel.hat.visible = true;
 				this.outerModel.rightArm.visible = true;
 				this.outerModel.leftArm.visible = true;
 			}

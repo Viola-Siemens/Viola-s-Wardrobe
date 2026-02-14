@@ -4,34 +4,47 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Viola's Wardrobe** is a Minecraft Forge 1.20.1 mod that adds decorative outfit items (currently maid outfit with headband, dress, and thigh highs) and a taming enchantment for improved animal affinity. The mod uses Mixin for code injection to modify rendering behavior and entity interactions.
+**Viola's Wardrobe** is a Minecraft Forge 1.20.1 mod that adds decorative outfit items and outfit-specific enchantments. The mod uses Mixin for code injection to modify rendering behavior and entity interactions.
 
+**Current Content:**
+- **Outfits**: Maid outfit (headband, dress, thigh highs) and JK uniform (summer top, skirt, shoes) in multiple variants
+- **Enchantments**: 7 custom enchantments (Buoyant, Charming, Laceward, Light Footing, Lumina, Sweat Tracing, Taming)
+
+**Technical Details:**
 - **Mod ID**: `violas_wardrobe`
 - **Java Version**: 17
 - **Forge Version**: 1.20.1-47.2.0
 - **Mappings**: Parchment 2023.09.03-1.20.1
+- **MixinExtras**: 0.5.0 (for advanced mixin features)
 
 ## Build and Development Commands
 
 ### Building
 ```bash
+# Windows
+.\gradlew.bat build
+
+# Linux/Mac
 ./gradlew build
 ```
 The built JAR will be in `build/libs/`. The `reobfJar` task runs automatically after `jar`.
 
 ### Running
 ```bash
+# Windows (use .\gradlew.bat for all commands below)
+# Linux/Mac (use ./gradlew)
+
 # Run Minecraft client with the mod loaded
-./gradlew runClient
+gradlew runClient
 
 # Run dedicated server
-./gradlew runServer
+gradlew runServer
 
 # Generate data (models, recipes, tags, etc.)
-./gradlew runData
+gradlew runData
 
 # Run game test server
-./gradlew gameTestServer
+gradlew gameTestServer
 ```
 
 Run configurations use separate working directories:
@@ -42,6 +55,10 @@ Run configurations use separate working directories:
 
 ### Publishing
 ```bash
+# Windows
+.\gradlew.bat publish
+
+# Linux/Mac
 ./gradlew publish
 ```
 Publishes to local Maven repository at `mcmodsrepo/`.
@@ -120,8 +137,13 @@ public record ItemEntry<T extends Item>(RegistryObject<T> item) implements Suppl
 Mixins are configured in `src/main/resources/violas_wardrobe.mixins.json`:
 
 - **Common mixins** (run on both client and server):
-  - `taming.CatEntityMixin`, `taming.ParrotEntityMixin`, `taming.WolfEntityMixin`
-  - Modify entity taming behavior based on taming enchantment
+  - **Enchantment-related mixins**:
+    - `buoyant.LivingEntityMixin` - Implements Buoyant enchantment (reduces fall damage, adds water walking)
+    - `charming.VillagerEntityMixin` - Implements Charming enchantment (better villager trades)
+    - `light_footing.PlayerEntityMixin` - Implements Light Footing enchantment (walk through berry bushes)
+    - `lumina.MobEntityMixin` - Implements Lumina enchantment (passive mobs glow effect)
+    - `sweat_tracing.BeeEntityMixin` - Implements Sweat Tracing enchantment (bee attraction)
+    - `taming.CatEntityMixin`, `taming.ParrotEntityMixin`, `taming.WolfEntityMixin` - Implement Taming enchantment (improved animal taming)
 
 - **Client mixins** (client-only):
   - `AbstractZombieRendererMixin`, `CustomHeadLayerMixin`, `PlayerRendererMixin`
@@ -131,6 +153,7 @@ Mixins are configured in `src/main/resources/violas_wardrobe.mixins.json`:
 1. Add the class to `src/main/java/com/hexagram2021/violas_wardrobe/mixin/`
 2. Register it in `violas_wardrobe.mixins.json` under `"mixins"` (common) or `"client"` (client-only)
 3. Use appropriate mixin annotations (`@Mixin`, `@Inject`, `@ModifyVariable`, etc.)
+4. For enchantment logic, create a mixin that targets the relevant entity/player class
 
 ### Client/Common Separation
 
@@ -152,31 +175,64 @@ Mixins are configured in `src/main/resources/violas_wardrobe.mixins.json`:
 All outfit items extend `BaseOutfitItem` which implements `Equipable`:
 
 ```java
-public class BaseOutfitItem extends Item implements Equipable {
+public abstract class BaseOutfitItem extends Item implements Equipable {
     private final EquipmentSlot slot;
 
     // Implements swapWithEquipmentSlot for right-click equipping
     // Returns enchantment value of 10
+    // Provides abstract methods for inner/outer textures
     // Subclasses can override for custom behavior
 }
 ```
 
-Outfit items are registered with specific equipment slots (HEAD, CHEST, FEET) and stack size of 1.
+**Current Implementations:**
+- `MaidOutfitItem`: Maid outfit with white/black variants
+- `JKUniformItem`: JK uniform with variant system (PURPLISH_BLUE, CREAM)
+
+Outfit items are registered with specific equipment slots (HEAD, CHEST, LEGS, FEET) and stack size of 1.
+
+### Enchantment Pattern
+
+All enchantments extend vanilla `Enchantment` class and are registered in `VWEnchantments`:
+
+```java
+public class ExampleEnchantment extends Enchantment {
+    public ExampleEnchantment() {
+        super(Rarity.RARE, VWEnchantmentCategories.OUTFIT, new EquipmentSlot[]{...});
+    }
+    // Override methods for max level, compatibility, etc.
+}
+```
+
+**Current Enchantments:**
+1. **Buoyant** (轻飘飘) - Reduces fall damage, adds water walking
+2. **Charming** (妩媚) - Improves villager trade prices
+3. **Laceward** (纤护) - Protection enchantment for outfit items
+4. **Light Footing** (步伐轻盈) - Allows walking through berry bushes without damage
+5. **Lumina** (流光) - Makes passive mobs glow
+6. **Sweat Tracing** (芳踪) - Attracts bees
+7. **Taming** (动物亲和) - Increases animal taming success rate
+
+Most enchantment logic is implemented via Mixins targeting specific entity classes.
 
 ### Resource Locations
 
 - **Textures**: `assets/violas_wardrobe/textures/`
   - Item textures: `textures/item/`
-  - Model textures: `textures/models/maid/`
+  - Model textures: `textures/models/maid/` and `textures/models/jk_uniform/`
 
 - **Models**: `assets/violas_wardrobe/models/item/`
 
 - **Lang files**: `assets/violas_wardrobe/lang/`
   - `en_us.json` (English)
-  - `zh_cn.json` (Chinese)
+  - `zh_cn.json` (Chinese - primary language)
 
 - **Data**: `data/violas_wardrobe/`
-  - Tags: `tags/items/`
+  - Tags: `tags/items/`, `tags/damage_type/`
+
+- **Generated resources**: `src/generated/resources/`
+  - Automatically included in source set
+  - Generated by `runData` task
 
 ### Access Transformers
 
@@ -198,19 +254,28 @@ minecraft {
 
 ### Adding New Outfit Items
 
-1. Create item class extending `BaseOutfitItem` or `MaidOutfitItem`
+1. Create item class extending `BaseOutfitItem`
+   - Override `getInnerTexture()` and `getOuterTexture()` methods
+   - Can create variant system like `JKUniformItem` using enums
 2. Register in `VWItems` using `ItemEntry.register()`
-3. Add textures to `assets/violas_wardrobe/textures/item/`
+3. Add textures to `assets/violas_wardrobe/textures/item/` and model textures
 4. Add model JSON to `assets/violas_wardrobe/models/item/`
-5. Add translations to lang files
-6. If needed, register dispenser behavior in `VWContent.vanillaCompat()`
+5. Add translations to both `en_us.json` and `zh_cn.json` lang files
+6. Register dispenser behavior in `VWContent.vanillaCompat()`
+7. Create custom model class if needed (see `MaidHeadbandAndSkirtModel`, `JKUniformModel`)
+8. Register model layer in `VWClient.onRegisterLayers()` event
 
 ### Adding New Enchantments
 
-1. Create enchantment class in `common/enchantments/`
-2. Register in `VWEnchantments` using `DeferredRegister`
-3. Add translations to lang files
-4. Implement enchantment logic (may require mixins for behavior modification)
+1. Create enchantment class in `common/enchantments/` extending `Enchantment`
+2. Define rarity, category (usually `VWEnchantmentCategories.OUTFIT`), and applicable slots
+3. Register in `VWEnchantments` using `DeferredRegister`
+4. Add translations to lang files (both English and Chinese)
+5. Implement enchantment logic:
+   - For passive effects: Create mixin targeting relevant entity class
+   - Place mixin in appropriate subpackage under `mixin/` (e.g., `mixin/charming/`)
+   - Register mixin in `violas_wardrobe.mixins.json` under `"mixins"` array
+6. Create damage type tags if needed (see `VWDamageTypeTags`)
 
 ### Mixin Development
 
@@ -221,7 +286,7 @@ minecraft {
 
 ### Data Generation
 
-Run `./gradlew runData` to generate:
+Run `gradlew runData` (Windows: `.\gradlew.bat runData`) to generate:
 - Item models
 - Block states
 - Recipes
@@ -230,3 +295,19 @@ Run `./gradlew runData` to generate:
 - Advancements
 
 Generated resources are placed in `src/generated/resources/` and automatically included in the source set.
+
+## Code Style and Conventions
+
+This project follows specific Chinese-influenced coding standards (see global CLAUDE.md for details):
+
+- **Indentation**: Use tabs, not spaces
+- **Brace style**: K&R style (opening brace on same line)
+- **Line length**: Max 150 characters per line
+- **Method length**: Max 300 lines per method body
+- **Comments**: Javadoc for all public classes and methods, written in Chinese with "喵~" suffix
+- **Naming**:
+  - Classes: UpperCamelCase (e.g., `MaidOutfitItem`)
+  - Methods/variables: lowerCamelCase (e.g., `getInnerTexture`)
+  - Constants: UPPER_SNAKE_CASE (e.g., `MAX_LEVEL`)
+  - Packages: lowercase_with_underscores (e.g., `violas_wardrobe`)
+- **Annotations**: Use `@Nullable` for nullable fields/parameters/returns, `@Override` for overridden methods

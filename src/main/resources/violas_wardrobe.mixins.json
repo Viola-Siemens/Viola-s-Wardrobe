@@ -16,7 +16,12 @@
   "minVersion": "0.8",
   "client": [
     "AbstractZombieRendererMixin",
+    "ArmorStandRendererMixin",
     "CustomHeadLayerMixin",
-    "PlayerRendererMixin"
+    "GiantMobRendererMixin",
+    "PiglinRendererMixin",
+    "PlayerRendererMixin",
+    "SkeletonRendererMixin",
+    "ZombieVillagerRendererMixin"
   ]
 }

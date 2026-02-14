@@ -36,13 +36,12 @@ public class JKUniformModel<T extends LivingEntity> extends HumanoidModel<T> {
 				PartPose.ZERO
 		);
 		partdefinition.addOrReplaceChild(
-				"hat", CubeListBuilder.create(),
+				"hat", CubeListBuilder.create().texOffs(16, 16)
+						.addBox(-5.0F, 0.0F, -2.0F, 10.0F, 6.0F, 4.0F, new CubeDeformation(0.25F)),
 				PartPose.ZERO
 		);
 		partdefinition.addOrReplaceChild(
-				"body", CubeListBuilder.create().texOffs(16, 16)
-						.addBox(-5.0F, 0.0F, -2.0F, 10.0F, 6.0F, 4.0F, new CubeDeformation(0.25F))
-						.texOffs(16, 26)
+				"body", CubeListBuilder.create().texOffs(16, 26)
 						.addBox(-4.0F, 10.0F, -2.0F, 8.0F, 2.0F, 4.0F, new CubeDeformation(1.0F)),
 				PartPose.ZERO
 		);
