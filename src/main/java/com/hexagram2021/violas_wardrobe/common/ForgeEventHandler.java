@@ -1,17 +1,26 @@
 package com.hexagram2021.violas_wardrobe.common;
 
 import com.hexagram2021.violas_wardrobe.ViolasWardrobeForge;
+import com.hexagram2021.violas_wardrobe.common.config.VWCommonConfig;
 import com.hexagram2021.violas_wardrobe.common.entities.ILuminaAffectable;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import com.hexagram2021.violas_wardrobe.common.utils.MathUtils;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * 游戏事件处理类，负责游戏阶段的事件监听和处理喵~
@@ -58,6 +67,105 @@ public final class ForgeEventHandler {
 						livingEntity.getZ() + livingEntity.getRandom().nextDouble() * 0.4D - 0.2D,
 						0.0D, 0.0D, 0.0D
 				);
+			}
+		}
+	}
+
+	/**
+	 * 实体加入世界事件处理，随机给一些怪物装备衣服喵~
+	 * @param event 实体加入世界事件喵~
+	 */
+	@SubscribeEvent
+	public static void onJoinLevel(EntityJoinLevelEvent event) {
+		Entity entity = event.getEntity();
+		RandomSource random = entity.level().getRandom();
+		if(!event.getLevel().isClientSide && !event.loadedFromDisk() && entity instanceof Mob mob) {
+			ResourceLocation entityType = ForgeRegistries.ENTITY_TYPES.getKey(mob.getType());
+			if(entityType != null && VWCommonConfig.MOBS_SPAWN_WITH_CLOTHES.get().contains(entityType.toString())) {
+				if(random.nextDouble() >= VWCommonConfig.POSSIBILITY_WITH_CLOTHES.get()) {
+					return;
+				}
+				int kind = random.nextInt(4);
+				switch (kind) {
+					case 0 -> setMaidClothing(mob, random);
+					case 1 -> setPurplishBlueJKUniform(mob, random);
+					case 2 -> setCreamJKUniform(mob, random);
+					case 3 -> {
+						// 思考帽喵~
+						int hatType = random.nextInt(6);
+						ItemStack hat;
+						switch (hatType) {
+							case 0 -> hat = new ItemStack(VWItems.BLUE_THINKING_HAT);
+							case 1 -> hat = new ItemStack(VWItems.YELLOW_THINKING_HAT);
+							case 2 -> hat = new ItemStack(VWItems.BLACK_THINKING_HAT);
+							case 3 -> hat = new ItemStack(VWItems.RED_THINKING_HAT);
+							case 4 -> hat = new ItemStack(VWItems.WHITE_THINKING_HAT);
+							case 5 -> hat = new ItemStack(VWItems.GREEN_THINKING_HAT);
+							default -> {
+								return;
+							}
+						}
+						mob.setItemSlot(EquipmentSlot.HEAD, hat);
+						mob.setDropChance(EquipmentSlot.HEAD, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+					}
+					default -> {
+						// Do nothing.
+					}
+				}
+			}
+		}
+	}
+
+	private static void setCreamJKUniform(Mob mob, RandomSource random) {
+		// 米色 JK 制服喵~
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.CHEST, new ItemStack(VWItems.JK_UNIFORM_CREAM_SUMMER));
+			mob.setDropChance(EquipmentSlot.CHEST, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.LEGS, new ItemStack(VWItems.JK_UNIFORM_CREAM_SKIRT));
+			mob.setDropChance(EquipmentSlot.LEGS, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.JK_UNIFORM_CREAM_SHOES));
+			mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+	}
+
+	private static void setPurplishBlueJKUniform(Mob mob, RandomSource random) {
+		// 藏青色 JK 制服喵~
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.CHEST, new ItemStack(VWItems.JK_UNIFORM_PURPLISH_BLUE_SUMMER));
+			mob.setDropChance(EquipmentSlot.CHEST, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.LEGS, new ItemStack(VWItems.JK_UNIFORM_PURPLISH_BLUE_SKIRT));
+			mob.setDropChance(EquipmentSlot.LEGS, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.JK_UNIFORM_PURPLISH_BLUE_SHOES));
+			mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+	}
+
+	private static void setMaidClothing(Mob mob, RandomSource random) {
+		// 女仆装喵~
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.HEAD, new ItemStack(VWItems.MAID_HEADBAND));
+			mob.setDropChance(EquipmentSlot.HEAD, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.CHEST, new ItemStack(VWItems.MAID_DRESS));
+			mob.setDropChance(EquipmentSlot.CHEST, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			int thighHighsType = random.nextInt(2);
+			if(thighHighsType == 0) {
+				mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.MAID_THIGH_HIGHS));
+				mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+			} else {
+				mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.MAID_BLACK_THIGH_HIGHS));
+				mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
 			}
 		}
 	}

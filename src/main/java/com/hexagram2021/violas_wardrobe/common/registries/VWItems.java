@@ -1,20 +1,22 @@
 package com.hexagram2021.violas_wardrobe.common.registries;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
 import com.hexagram2021.violas_wardrobe.common.items.ThinkingHatItem;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Comparator;
-import java.util.Set;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -156,7 +158,7 @@ public final class VWItems {
 	 * @param item 注册对象喵~
 	 */
 	public record ItemEntry<T extends Item>(String name, RegistryObject<T> item) implements Supplier<T>, ItemLike {
-		private static final Set<ItemEntry<?>> ITEMS = Sets.newIdentityHashSet();
+		private static final List<ItemEntry<?>> ITEMS = Lists.newArrayList();
 
 		/**
 		 * 注册物品并创建物品条目喵~
@@ -198,7 +200,16 @@ public final class VWItems {
 		 * @return 不可修改的物品条目集合喵~
 		 */
 		static Stream<ItemEntry<?>> getItems() {
-			return ITEMS.stream().sorted(Comparator.comparing(ItemEntry::name));
+			return ITEMS.stream();
+		}
+
+		/**
+		 * 获取随机物品喵~
+		 * @param random 随机数生成器喵~
+		 * @return 随机物品喵~
+		 */
+		public static ItemStack getRandom(RandomSource random) {
+			return new ItemStack(Util.getRandom(ITEMS, random));
 		}
 	}
 }

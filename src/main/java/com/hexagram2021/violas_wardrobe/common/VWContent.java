@@ -1,9 +1,6 @@
 package com.hexagram2021.violas_wardrobe.common;
 
-import com.hexagram2021.violas_wardrobe.common.registries.VWCreativeModeTabs;
-import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantmentCategories;
-import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
-import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
+import com.hexagram2021.violas_wardrobe.common.registries.*;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -24,6 +21,7 @@ public final class VWContent {
 		VWItems.init(modBus);
 		VWEnchantments.init(modBus);
 		VWCreativeModeTabs.init(modBus);
+		VWLootModifiers.init(modBus);
 	}
 
 	/**
