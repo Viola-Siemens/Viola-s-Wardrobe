@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Current Content:**
 - **Outfits**: Maid outfit (headband, dress, thigh highs) and JK uniform (summer top, skirt, shoes) in multiple variants
+- **Accessories**: Six Thinking Hats (blue, yellow, black, red, white, green)
 - **Enchantments**: 7 custom enchantments (Buoyant, Charming, Laceward, Light Footing, Lumina, Sweat Tracing, Taming)
 
 **Technical Details:**
@@ -70,10 +71,11 @@ Publishes to local Maven repository at `mcmodsrepo/`.
 1. **Main Mod Class**: `ViolasWardrobeForge`
    - Entry point annotated with `@Mod(ViolasWardrobeForge.MODID)`
    - Constructor calls `VWContent.modConstruction(modBus)` to register all content
+   - Registers both CLIENT and COMMON configs (VWClientConfig, VWCommonConfig)
    - Registers `onCommonSetup` event listener for vanilla compatibility setup
 
 2. **Content Registration**: `VWContent`
-   - `modConstruction(IEventBus)`: Initializes all deferred registers (items, enchantments, creative tabs)
+   - `modConstruction(IEventBus)`: Initializes all deferred registers (items, enchantments, creative tabs, loot modifiers)
    - `vanillaCompat()`: Configures vanilla compatibility (e.g., dispenser behavior for outfit items)
 
 3. **Client Initialization**: `VWClient`
@@ -90,7 +92,9 @@ com.hexagram2021.violas_wardrobe/
 │   ├── VWLayerLocations.java          # Model layer location constants
 │   ├── models/                        # Custom entity models
 │   ├── layers/                        # Render layers
-│   └── renderers/                     # Custom renderers
+│   ├── renderers/                     # Custom renderers
+│   └── config/                        # Client configuration
+│       └── VWClientConfig.java        # Client-only config
 ├── common/                            # Common (client + server) code
 │   ├── VWContent.java                 # Content initialization
 │   ├── items/                         # Custom items
@@ -102,7 +106,10 @@ com.hexagram2021.violas_wardrobe/
 │   │   ├── VWEnchantments.java        # Enchantment registry
 │   │   ├── VWEnchantmentCategories.java
 │   │   ├── VWCreativeModeTabs.java    # Creative tab registry
-│   │   └── VWItemTags.java            # Item tag definitions
+│   │   ├── VWItemTags.java            # Item tag definitions
+│   │   └── VWLootModifiers.java       # Loot modifier registry
+│   ├── config/                        # Configuration
+│   │   └── VWCommonConfig.java        # Common config (server+client)
 │   └── utils/                         # Utility classes
 └── mixin/                             # Mixin classes for code injection
     ├── taming/                        # Common mixins (entity taming)
@@ -128,9 +135,28 @@ public record ItemEntry<T extends Item>(RegistryObject<T> item) implements Suppl
 ```
 
 **Key Points:**
-- All registries follow this pattern: `VWItems`, `VWEnchantments`, `VWCreativeModeTabs`
+- All registries follow this pattern: `VWItems`, `VWEnchantments`, `VWCreativeModeTabs`, `VWLootModifiers`
 - Each registry has an `init(IEventBus)` method called from `VWContent.modConstruction()`
 - Custom wrapper classes (like `ItemEntry`) provide type-safe access and implement useful interfaces
+
+### Configuration System
+
+The mod uses Forge's configuration system with two config files:
+
+- **Common Config** (`VWCommonConfig`): Settings that apply to both client and server
+  - Registered as `ModConfig.Type.COMMON`
+  - Configuration file: `config/violas_wardrobe-common.toml`
+  - **Available options**:
+    - `MOBS_SPAWN_WITH_CLOTHES`: List of entity types that may spawn with outfit items (default: zombie, skeleton, husk, zombie_villager)
+    - `POSSIBILITY_WITH_CLOTHES`: Probability of mobs spawning with clothes (default: 0.025, range: 0.0-1.0)
+    - `CLOTHES_DROP_CHANCE`: Probability of outfit items dropping from mobs (default: 0.085, range: 0.0-1.0)
+    - `VILLAGE_CHEST_CHANCE`: Probability of outfit items appearing in village chests (default: 0.375, range: 0.0-1.0)
+
+- **Client Config** (`VWClientConfig`): Client-only settings (rendering, visual preferences)
+  - Registered as `ModConfig.Type.CLIENT`
+  - Configuration file: `config/violas_wardrobe-client.toml`
+
+Both configs are registered in the `ViolasWardrobeForge` constructor using `ModLoadingContext.get().registerConfig()`.
 
 ### Mixin Usage
 
@@ -138,16 +164,16 @@ Mixins are configured in `src/main/resources/violas_wardrobe.mixins.json`:
 
 - **Common mixins** (run on both client and server):
   - **Enchantment-related mixins**:
-    - `buoyant.LivingEntityMixin` - Implements Buoyant enchantment (reduces fall damage, adds water walking)
+    - `buoyant.LivingEntityMixin` - Implements Buoyant enchantment (grants slow falling effect after falling a certain height)
     - `charming.VillagerEntityMixin` - Implements Charming enchantment (better villager trades)
-    - `light_footing.PlayerEntityMixin` - Implements Light Footing enchantment (walk through berry bushes)
-    - `lumina.MobEntityMixin` - Implements Lumina enchantment (passive mobs glow effect)
-    - `sweat_tracing.BeeEntityMixin` - Implements Sweat Tracing enchantment (bee attraction)
+    - `light_footing.PlayerEntityMixin` - Implements Light Footing enchantment (reduces hunger consumption from jumping and moving)
+    - `lumina.MobEntityMixin` - Implements Lumina enchantment (leaves star particles and may confuse enemies to change attack targets)
+    - `sweat_tracing.BeeEntityMixin` - Implements Sweat Tracing enchantment (helps bees collect nectar and produce honey faster)
     - `taming.CatEntityMixin`, `taming.ParrotEntityMixin`, `taming.WolfEntityMixin` - Implement Taming enchantment (improved animal taming)
 
 - **Client mixins** (client-only):
-  - `AbstractZombieRendererMixin`, `CustomHeadLayerMixin`, `PlayerRendererMixin`
-  - Inject custom rendering layers for outfit items
+  - `AbstractZombieRendererMixin`, `ArmorStandRendererMixin`, `CustomHeadLayerMixin`, `GiantMobRendererMixin`, `PiglinRendererMixin`, `PlayerRendererMixin`, `SkeletonRendererMixin`, `ZombieVillagerRendererMixin`
+  - Inject custom rendering layers for outfit items on various entity types
 
 **Important:** When adding new mixins:
 1. Add the class to `src/main/java/com/hexagram2021/violas_wardrobe/mixin/`
@@ -165,8 +191,15 @@ Mixins are configured in `src/main/resources/violas_wardrobe.mixins.json`:
   - Items, enchantments, game logic, registries
 
 - **Mixin package** (`mixin/`): Mixins are separated by target
-  - Common mixins in `mixin/taming/` for entity behavior
+  - Common mixins in subdirectories by enchantment name (e.g., `mixin/taming/`, `mixin/buoyant/`)
   - Client mixins in `mixin/` root for rendering
+
+### Loot Modifiers
+
+The mod includes custom loot modifiers registered in `VWLootModifiers` to add outfit items to various loot tables. These are initialized during mod construction and use Forge's Global Loot Modifier system.
+
+**Current Loot Modifiers:**
+- **VillageChestModifier**: Adds outfit items to village chest loot with configurable probability (controlled by `VILLAGE_CHEST_CHANCE` config option)
 
 ## Key Patterns and Conventions
 
@@ -205,12 +238,12 @@ public class ExampleEnchantment extends Enchantment {
 ```
 
 **Current Enchantments:**
-1. **Buoyant** (轻飘飘) - Reduces fall damage, adds water walking
+1. **Buoyant** (轻飘飘) - Grants slow falling effect after falling a certain height
 2. **Charming** (妩媚) - Improves villager trade prices
-3. **Laceward** (纤护) - Protection enchantment for outfit items
-4. **Light Footing** (步伐轻盈) - Allows walking through berry bushes without damage
-5. **Lumina** (流光) - Makes passive mobs glow
-6. **Sweat Tracing** (芳踪) - Attracts bees
+3. **Laceward** (纤护) - Reduces magic damage
+4. **Light Footing** (步伐轻盈) - Reduces hunger consumption from jumping and moving
+5. **Lumina** (流光) - Leaves star particles on movement trail, may confuse enemies to change attack targets when attacking mobs in groups
+6. **Sweat Tracing** (芳踪) - Helps nearby bees collect nectar and produce honey faster
 7. **Taming** (动物亲和) - Increases animal taming success rate
 
 Most enchantment logic is implemented via Mixins targeting specific entity classes.
@@ -295,6 +328,14 @@ Run `gradlew runData` (Windows: `.\gradlew.bat runData`) to generate:
 - Advancements
 
 Generated resources are placed in `src/generated/resources/` and automatically included in the source set.
+
+### Adding New Loot Modifiers
+
+1. Create loot modifier class in `common/loot/` implementing `IGlobalLootModifier`
+2. Implement the `factory()` method returning a `Codec` for serialization
+3. Register in `VWLootModifiers` using `DeferredRegister`
+4. Add configuration data in `data/violas_wardrobe/loot_modifiers/`
+5. Add loot modifier to `data/forge/loot_modifiers/global_loot_modifiers.json`
 
 ## Code Style and Conventions
 
