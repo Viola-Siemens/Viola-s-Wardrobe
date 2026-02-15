@@ -68,4 +68,12 @@ public class LuminaAffectedGoal extends TargetGoal {
 		}
 		super.start();
 	}
+
+	@Override
+	public void stop() {
+		super.stop();
+		if(this.mob instanceof ILuminaAffectable luminaAffectable) {
+			luminaAffectable.violas_wardrobe$deactivateLumina();
+		}
+	}
 }
