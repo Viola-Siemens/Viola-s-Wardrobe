@@ -37,15 +37,16 @@ Wear these hats in Minecraft to celebrate the power of diverse thinking approach
 
 ### Special Enchantments
 
-Viola's Wardrobe introduces seven unique enchantments designed specifically for outfit items:
+Viola's Wardrobe introduces eight unique enchantments designed specifically for outfit items:
 
 1. **Buoyant** - Obtains a slow falling effect after falling for a certain distance
 2. **Charming** - Slightly reduces the price when trading with villagers
-3. **Laceward** - Reduces magic damage
-4. **Light Footing** - Reduces food level consumption caused by jumping and moving
-5. **Lumina** - Leaves starlight particles on the trajectory of skirt movement, with a small probability of causing enemies to fall into a confused state and randomly change their attack targets when attacking groups of monsters
-6. **Sweat Tracing** - Helps bees nearby collect nectar and produce honey faster
-7. **Taming** - Improves the probability of success when taming animals
+3. **Daylight Blooming** - Provides beneficial regeneration effects to entities under sunshine
+4. **Laceward** - Reduces magic damage
+5. **Light Footing** - Reduces food level consumption caused by jumping and moving
+6. **Lumina** - Leaves starlight particles on the trajectory of skirt movement, with a small probability of causing enemies to fall into a confused state and randomly change their attack targets when attacking groups of monsters
+7. **Sweat Tracing** - Helps bees nearby collect nectar and produce honey faster
+8. **Taming** - Improves the probability of success when taming animals
 
 ## How to Obtain
 

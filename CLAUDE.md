@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Current Content:**
 - **Outfits**: Maid outfit (headband, dress, thigh highs) and JK uniform (summer top, skirt, shoes) in multiple variants
 - **Accessories**: Six Thinking Hats (blue, yellow, black, red, white, green)
-- **Enchantments**: 7 custom enchantments (Buoyant, Charming, Laceward, Light Footing, Lumina, Sweat Tracing, Taming)
+- **Enchantments**: 8 custom enchantments (Buoyant, Charming, Daylight Blooming, Laceward, Light Footing, Lumina, Sweat Tracing, Taming)
 
 **Technical Details:**
 - **Mod ID**: `violas_wardrobe`
@@ -82,6 +82,12 @@ Publishes to local Maven repository at `mcmodsrepo/`.
    - Annotated with `@Mod.EventBusSubscriber` for client-side only
    - Registers model layer definitions in `onRegisterLayers` event
 
+4. **Forge Event Handler**: `ForgeEventHandler`
+   - Annotated with `@Mod.EventBusSubscriber` for Forge event bus
+   - Handles runtime game events (entity spawning, living entity ticks, player attacks)
+   - Implements enchantment effects that require event-based logic (Daylight Blooming, Lumina particles)
+   - Manages mob spawning with outfit items based on configuration
+
 ### Package Structure
 
 ```
@@ -97,6 +103,7 @@ com.hexagram2021.violas_wardrobe/
 │       └── VWClientConfig.java        # Client-only config
 ├── common/                            # Common (client + server) code
 │   ├── VWContent.java                 # Content initialization
+│   ├── ForgeEventHandler.java         # Forge event bus handler (enchantment effects, mob spawning)
 │   ├── items/                         # Custom items
 │   │   ├── BaseOutfitItem.java        # Base class for outfit items
 │   │   └── MaidOutfitItem.java        # Maid outfit implementation
@@ -110,9 +117,16 @@ com.hexagram2021.violas_wardrobe/
 │   │   └── VWLootModifiers.java       # Loot modifier registry
 │   ├── config/                        # Configuration
 │   │   └── VWCommonConfig.java        # Common config (server+client)
+│   ├── loot/                          # Loot modifiers
+│   │   └── VillageChestModifier.java  # Village chest loot modifier
 │   └── utils/                         # Utility classes
 └── mixin/                             # Mixin classes for code injection
     ├── taming/                        # Common mixins (entity taming)
+    ├── buoyant/                       # Buoyant enchantment mixin
+    ├── charming/                      # Charming enchantment mixin
+    ├── light_footing/                 # Light Footing enchantment mixin
+    ├── lumina/                        # Lumina enchantment mixin
+    ├── sweat_tracing/                 # Sweat Tracing enchantment mixin
     └── *RendererMixin.java            # Client mixins (rendering)
 ```
 
@@ -240,13 +254,16 @@ public class ExampleEnchantment extends Enchantment {
 **Current Enchantments:**
 1. **Buoyant** (轻飘飘) - Grants slow falling effect after falling a certain height
 2. **Charming** (妩媚) - Improves villager trade prices
-3. **Laceward** (纤护) - Reduces magic damage
-4. **Light Footing** (步伐轻盈) - Reduces hunger consumption from jumping and moving
-5. **Lumina** (流光) - Leaves star particles on movement trail, may confuse enemies to change attack targets when attacking mobs in groups
-6. **Sweat Tracing** (芳踪) - Helps nearby bees collect nectar and produce honey faster
-7. **Taming** (动物亲和) - Increases animal taming success rate
+3. **Daylight Blooming** (光合滋养) - Provides regeneration effects to entities under daylight when they can see the sky
+4. **Laceward** (纤护) - Reduces magic damage
+5. **Light Footing** (步伐轻盈) - Reduces hunger consumption from jumping and moving
+6. **Lumina** (流光) - Leaves star particles on movement trail, may confuse enemies to change attack targets when attacking mobs in groups
+7. **Sweat Tracing** (芳踪) - Helps nearby bees collect nectar and produce honey faster
+8. **Taming** (动物亲和) - Increases animal taming success rate
 
-Most enchantment logic is implemented via Mixins targeting specific entity classes.
+**Enchantment Implementation:**
+- Most enchantment logic is implemented via Mixins targeting specific entity classes
+- Some enchantments (Daylight Blooming, Lumina particle effects) are implemented via Forge event handlers in `ForgeEventHandler.java`
 
 ### Resource Locations
 
@@ -280,7 +297,7 @@ minecraft {
 ## Important Constants
 
 - **MODID**: `"violas_wardrobe"` (defined in `ViolasWardrobeForge.MODID`)
-- **Mod Version**: Defined in `gradle.properties` as `mod_version=1.0.1`
+- **Mod Version**: Defined in `gradle.properties` as `mod_version=1.0.2`
 - **Mixin Refmap**: `violas_wardrobe.refmap.json` (configured in `violas_wardrobe.mixins.json`)
 
 ## Development Notes
@@ -301,13 +318,18 @@ minecraft {
 ### Adding New Enchantments
 
 1. Create enchantment class in `common/enchantments/` extending `Enchantment`
-2. Define rarity, category (usually `VWEnchantmentCategories.OUTFIT`), and applicable slots
+2. Define rarity, category (usually `VWEnchantmentCategories.OUTFIT` or `VWEnchantmentCategories.VIOLAS_WARDROBE_HEAD`), and applicable slots
 3. Register in `VWEnchantments` using `DeferredRegister`
 4. Add translations to lang files (both English and Chinese)
-5. Implement enchantment logic:
-   - For passive effects: Create mixin targeting relevant entity class
-   - Place mixin in appropriate subpackage under `mixin/` (e.g., `mixin/charming/`)
-   - Register mixin in `violas_wardrobe.mixins.json` under `"mixins"` array
+5. Implement enchantment logic using one of two approaches:
+   - **Mixin approach** (for modifying specific entity behaviors):
+     - Create mixin targeting relevant entity class
+     - Place mixin in appropriate subpackage under `mixin/` (e.g., `mixin/charming/`)
+     - Register mixin in `violas_wardrobe.mixins.json` under `"mixins"` array
+   - **Forge event handler approach** (for effects that need event-based logic):
+     - Add event handler method in `ForgeEventHandler.java`
+     - Use `@SubscribeEvent` annotation
+     - Examples: Daylight Blooming (LivingTickEvent), Lumina particles (LivingTickEvent)
 6. Create damage type tags if needed (see `VWDamageTypeTags`)
 
 ### Mixin Development
