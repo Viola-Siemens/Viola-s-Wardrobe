@@ -6,15 +6,19 @@ import com.hexagram2021.violas_wardrobe.common.entities.ILuminaAffectable;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
 import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import com.hexagram2021.violas_wardrobe.common.utils.MathUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -47,26 +51,44 @@ public final class ForgeEventHandler {
 	}
 
 	/**
-	 * 生命实体更新事件处理，如果生命实体穿着流光效果的衣服，则渲染星光粒子喵~
+	 * 生命实体更新事件处理喵~
+	 * <ol>
+	 * <li>如果生命实体穿着流光效果的衣服，则渲染星光粒子喵~</li>
+	 * <li>如果生命实体穿着光合滋养效果的衣服，则添加生命恢复状态效果喵~</li>
+	 * </ol>
 	 *
 	 * @param event 生命实体更新事件喵~
 	 */
 	@SubscribeEvent
 	public static void onLivingEntityTick(LivingEvent.LivingTickEvent event) {
 		LivingEntity livingEntity = event.getEntity();
-		if(livingEntity.level().isClientSide) {
+		Level level = livingEntity.level();
+		if(level.isClientSide) {
+			// 检查流光条件，渲染星光粒子喵~
 			int maxLevel = 0;
 			for(ItemStack itemStack: livingEntity.getArmorSlots()) {
 				maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.LUMINA.get()));
 			}
-			if(maxLevel > 0 && livingEntity.tickCount % (12 / maxLevel) == 0) {
-				livingEntity.level().addParticle(
+			if(maxLevel > 0 && livingEntity.tickCount % (24 / (maxLevel + 1)) == 0) {
+				level.addParticle(
 						ParticleTypes.WAX_OFF,
 						livingEntity.getX() + livingEntity.getRandom().nextDouble() * 0.4D - 0.2D,
 						livingEntity.getY(0.4D) + livingEntity.getRandom().nextDouble() * 0.4D - 0.2D,
 						livingEntity.getZ() + livingEntity.getRandom().nextDouble() * 0.4D - 0.2D,
 						0.0D, 0.0D, 0.0D
 				);
+			}
+		} else {
+			// 检查光合滋养条件，添加生命恢复状态效果喵~
+			if(level.isDay()) {
+				int maxLevel = 0;
+				for (ItemStack itemStack: livingEntity.getArmorSlots()) {
+					maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.DAYLIGHT_BLOOMING.get()));
+				}
+				if (maxLevel > 0 && livingEntity.tickCount % (480 / (maxLevel + 1)) == 0 &&
+						level.canSeeSky(BlockPos.containing(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ()))) {
+					livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40 + (int) (80 * MathUtils.sigmoid(maxLevel - 1.0D))));
+				}
 			}
 		}
 	}

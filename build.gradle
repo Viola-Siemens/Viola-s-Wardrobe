@@ -134,6 +134,9 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -141,6 +144,7 @@ dependencies {
     
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
+    runtimeOnly fg.deobf("com.hexagram2021:everyxdance:1.0.1")
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
         jarJar.ranged(it, "[0,)")
     }

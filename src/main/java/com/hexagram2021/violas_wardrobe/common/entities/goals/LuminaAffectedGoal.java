@@ -69,6 +69,9 @@ public class LuminaAffectedGoal extends TargetGoal {
 		super.start();
 	}
 
+	/**
+	 * 停止目标行为喵~
+	 */
 	@Override
 	public void stop() {
 		super.stop();

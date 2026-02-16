@@ -23,6 +23,9 @@ public final class VWEnchantments {
 	/** 妩媚附魔喵~ */
 	public static final RegistryObject<CharmingEnchantment> CHARMING = REGISTER.register("charming", CharmingEnchantment::new);
 
+	/** 光合滋养附魔喵~ */
+	public static final RegistryObject<DaylightBloomingEnchantment> DAYLIGHT_BLOOMING = REGISTER.register("daylight_blooming", DaylightBloomingEnchantment::new);
+
 	/** 纤护附魔喵~ */
 	public static final RegistryObject<LacewardEnchantment> LACEWARD = REGISTER.register("laceward", LacewardEnchantment::new);
 
