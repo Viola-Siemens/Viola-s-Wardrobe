@@ -10,7 +10,9 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
@@ -48,6 +50,20 @@ public final class VWClient {
 				VWLayerLocations.THINKING_HAT,
 				ThinkingHatModel::createBodyLayer
 		);
+	}
+
+	/**
+	 * 客户端设置事件处理，注册 Curios 渲染器喵~
+	 *
+	 * @param event 客户端设置事件喵~
+	 */
+	@SubscribeEvent
+	public static void onClientSetup(FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
+			if(ModList.get().isLoaded("curios")) {
+				VWCuriosRenderers.registerRenderers();
+			}
+		});
 	}
 
 	private VWClient() {

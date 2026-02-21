@@ -2,6 +2,7 @@ package com.hexagram2021.violas_wardrobe.common.enchantments;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantmentCategories;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -54,9 +55,6 @@ public class CharmingEnchantment extends Enchantment {
 	 * @return 玩家与村民交易威望的加成喵~
 	 */
 	public static int getReputationBonus(Player player) {
-		return player.getInventory().armor
-				.stream()
-				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.CHARMING.get()))
-				.max().orElse(0) * 5;
+		return SuitUtils.getMaxEnchantLevel(player, VWEnchantments.CHARMING.get()) * 5;
 	}
 }

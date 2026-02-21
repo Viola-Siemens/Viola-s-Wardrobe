@@ -1,9 +1,11 @@
 package com.hexagram2021.violas_wardrobe.common.items;
 
+import com.hexagram2021.violas_wardrobe.common.items.curios.VWCuriosFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraftforge.fml.ModList;
 
 import static com.hexagram2021.violas_wardrobe.ViolasWardrobeForge.MODID;
 
@@ -51,5 +53,18 @@ public class MaidOutfitItem extends BaseOutfitItem {
 	@Override
 	public ResourceLocation getOuterTexture() {
 		return new ResourceLocation(MODID, "textures/models/maid/maid_outfit_hns.png");
+	}
+
+	/**
+	 * 创建女仆装物品实例，如果加载了 Curios 模组则创建 Curios 版本喵~
+	 *
+	 * @param slot 装备槽位喵~
+	 * @return 女仆装物品实例喵~
+	 */
+	public static MaidOutfitItem of(EquipmentSlot slot) {
+		if(ModList.get().isLoaded("curios")) {
+			return VWCuriosFactory.maidOutfit(slot, OUTFIT_PROPERTIES);
+		}
+		return new MaidOutfitItem(slot, OUTFIT_PROPERTIES);
 	}
 }

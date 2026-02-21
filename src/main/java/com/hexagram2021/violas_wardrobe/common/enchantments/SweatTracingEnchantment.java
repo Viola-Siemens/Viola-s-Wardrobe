@@ -2,6 +2,7 @@ package com.hexagram2021.violas_wardrobe.common.enchantments;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantmentCategories;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Bee;
@@ -59,8 +60,7 @@ public class SweatTracingEnchantment extends Enchantment {
 	public static int getPollinatingTicksBonus(Bee bee) {
 		return bee.level().getNearbyPlayers(POLLINATING_BONUS_CONDITIONS, bee, bee.getBoundingBox().inflate(32.0D, 16.0D, 32.0D))
 				.stream()
-				.flatMap(player -> player.getInventory().armor.stream())
-				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.SWEAT_TRACING.get()))
+				.mapToInt(player -> SuitUtils.getMaxEnchantLevel(player, VWEnchantments.SWEAT_TRACING.get()))
 				.max().orElse(0);
 	}
 }

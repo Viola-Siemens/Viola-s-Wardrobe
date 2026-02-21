@@ -1,9 +1,11 @@
 package com.hexagram2021.violas_wardrobe.common.items;
 
+import com.hexagram2021.violas_wardrobe.common.items.curios.VWCuriosFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraftforge.fml.ModList;
 
 import java.util.Locale;
 
@@ -59,8 +61,27 @@ public class JKUniformItem extends BaseOutfitItem {
 		return new ResourceLocation(MODID, "textures/models/jk_uniform/jk_" + this.variantName() + "_outer.png");
 	}
 
+	/**
+	 * 获取变体名称的小写形式喵~
+	 *
+	 * @return 变体名称喵~
+	 */
 	public String variantName() {
 		return this.variant.name().toLowerCase(Locale.ROOT);
+	}
+
+	/**
+	 * 创建 JK 制服物品实例，如果加载了 Curios 模组则创建 Curios 版本喵~
+	 *
+	 * @param variant 颜色变体喵~
+	 * @param slot 装备槽位喵~
+	 * @return JK 制服物品实例喵~
+	 */
+	public static JKUniformItem of(Variant variant, EquipmentSlot slot) {
+		if(ModList.get().isLoaded("curios")) {
+			return VWCuriosFactory.jKUniform(variant, slot, OUTFIT_PROPERTIES);
+		}
+		return new JKUniformItem(variant, slot, OUTFIT_PROPERTIES);
 	}
 
 	public enum Variant {

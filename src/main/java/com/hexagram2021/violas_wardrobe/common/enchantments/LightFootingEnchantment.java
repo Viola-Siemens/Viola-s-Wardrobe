@@ -2,6 +2,7 @@ package com.hexagram2021.violas_wardrobe.common.enchantments;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantmentCategories;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -59,10 +60,7 @@ public class LightFootingEnchantment extends Enchantment {
 	 * @return 调整后的疲劳度喵~
 	 */
 	public static float wrapExhaustion(Player player, float exhaustion) {
-		int maxLevel = player.getInventory().armor
-				.stream()
-				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.LIGHT_FOOTING.get()))
-				.max().orElse(0);
+		int maxLevel = SuitUtils.getMaxEnchantLevel(player, VWEnchantments.LIGHT_FOOTING.get());
 		if(maxLevel == 0) {
 			return exhaustion;
 		}

@@ -6,6 +6,7 @@ import com.hexagram2021.violas_wardrobe.common.entities.ILuminaAffectable;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
 import com.hexagram2021.violas_wardrobe.common.registries.VWItems;
 import com.hexagram2021.violas_wardrobe.common.utils.MathUtils;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -41,9 +42,7 @@ public final class ForgeEventHandler {
 	@SubscribeEvent
 	public static void onPlayerAttack(AttackEntityEvent event) {
 		Player player = event.getEntity();
-		int maxLevel = player.getInventory().armor.stream()
-				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.LUMINA.get()))
-				.max().orElse(0);
+		int maxLevel = SuitUtils.getMaxEnchantLevel(player, VWEnchantments.LUMINA.get());
 		if(maxLevel > 0 && event.getTarget() instanceof ILuminaAffectable monster &&
 				player.getRandom().nextDouble() < MathUtils.sigmoid(maxLevel * 0.25D) - 0.5D) {
 			monster.violas_wardrobe$setLuminaActivatedTick(event.getTarget().tickCount);
@@ -65,10 +64,7 @@ public final class ForgeEventHandler {
 		Level level = livingEntity.level();
 		if(level.isClientSide) {
 			// 检查流光条件，渲染星光粒子喵~
-			int maxLevel = 0;
-			for(ItemStack itemStack: livingEntity.getArmorSlots()) {
-				maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.LUMINA.get()));
-			}
+			int maxLevel = SuitUtils.getMaxEnchantLevel(livingEntity, VWEnchantments.LUMINA.get());
 			if(maxLevel > 0 && livingEntity.tickCount % (24 / (maxLevel + 1)) == 0) {
 				level.addParticle(
 						ParticleTypes.WAX_OFF,
@@ -81,13 +77,10 @@ public final class ForgeEventHandler {
 		} else {
 			// 检查光合滋养条件，添加生命恢复状态效果喵~
 			if(level.isDay()) {
-				int maxLevel = 0;
-				for (ItemStack itemStack: livingEntity.getArmorSlots()) {
-					maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.DAYLIGHT_BLOOMING.get()));
-				}
+				int maxLevel = SuitUtils.getMaxEnchantLevel(livingEntity, VWEnchantments.DAYLIGHT_BLOOMING.get());
 				if (maxLevel > 0 && livingEntity.tickCount % (480 / (maxLevel + 1)) == 0 &&
 						level.canSeeSky(BlockPos.containing(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ()))) {
-					livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40 + (int) (80 * MathUtils.sigmoid(maxLevel - 1.0D))));
+					livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40 + (int) (80 * MathUtils.sigmoid(maxLevel - 1.0D)), 0, false, false));
 				}
 			}
 		}
@@ -138,6 +131,12 @@ public final class ForgeEventHandler {
 		}
 	}
 
+	/**
+	 * 为怪物装备米色 JK 制服喵~
+	 *
+	 * @param mob 怪物实体喵~
+	 * @param random 随机数生成器喵~
+	 */
 	private static void setCreamJKUniform(Mob mob, RandomSource random) {
 		// 米色 JK 制服喵~
 		if(random.nextBoolean()) {
@@ -154,6 +153,12 @@ public final class ForgeEventHandler {
 		}
 	}
 
+	/**
+	 * 为怪物装备藏青色 JK 制服喵~
+	 *
+	 * @param mob 怪物实体喵~
+	 * @param random 随机数生成器喵~
+	 */
 	private static void setPurplishBlueJKUniform(Mob mob, RandomSource random) {
 		// 藏青色 JK 制服喵~
 		if(random.nextBoolean()) {
@@ -170,6 +175,12 @@ public final class ForgeEventHandler {
 		}
 	}
 
+	/**
+	 * 为怪物装备女仆装喵~
+	 *
+	 * @param mob 怪物实体喵~
+	 * @param random 随机数生成器喵~
+	 */
 	private static void setMaidClothing(Mob mob, RandomSource random) {
 		// 女仆装喵~
 		if(random.nextBoolean()) {

@@ -1,11 +1,11 @@
 package com.hexagram2021.violas_wardrobe.common.registries;
 
 import com.google.common.collect.Lists;
+import com.hexagram2021.violas_wardrobe.common.items.BlackMaidOutfitItem;
 import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import com.hexagram2021.violas_wardrobe.common.items.MaidOutfitItem;
 import com.hexagram2021.violas_wardrobe.common.items.ThinkingHatItem;
 import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
@@ -34,109 +34,99 @@ public final class VWItems {
 	 * 女仆头饰，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<MaidOutfitItem> MAID_HEADBAND = ItemEntry.register(
-			"maid_headband", () -> new MaidOutfitItem(EquipmentSlot.HEAD, new Item.Properties().stacksTo(1))
+			"maid_headband", () -> MaidOutfitItem.of(EquipmentSlot.HEAD)
 	);
 	/**
 	 * 女仆裙子，装备在胸部槽位喵~
 	 */
 	public static final ItemEntry<MaidOutfitItem> MAID_DRESS = ItemEntry.register(
-			"maid_dress", () -> new MaidOutfitItem(EquipmentSlot.CHEST, new Item.Properties().stacksTo(1))
+			"maid_dress", () -> MaidOutfitItem.of(EquipmentSlot.CHEST)
 	);
 	/**
 	 * 女仆长筒袜，装备在脚部槽位喵~
 	 */
 	public static final ItemEntry<MaidOutfitItem> MAID_THIGH_HIGHS = ItemEntry.register(
-			"maid_thigh_highs", () -> new MaidOutfitItem(EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
+			"maid_thigh_highs", () -> MaidOutfitItem.of(EquipmentSlot.FEET)
 	);
 	/**
 	 * 女仆黑色长筒袜，装备在脚部槽位喵~
 	 */
-	public static final ItemEntry<MaidOutfitItem> MAID_BLACK_THIGH_HIGHS = ItemEntry.register(
-			"maid_black_thigh_highs", () -> new MaidOutfitItem(EquipmentSlot.FEET, new Item.Properties().stacksTo(1)) {
-				@Override
-				public ResourceLocation getInnerTexture() {
-					return new ResourceLocation(MODID, "textures/models/maid/maid_black_outfit.png");
-				}
-
-				@Override
-				public ResourceLocation getOuterTexture() {
-					return new ResourceLocation(MODID, "textures/models/maid/maid_black_outfit_hns.png");
-				}
-			}
+	public static final ItemEntry<BlackMaidOutfitItem> MAID_BLACK_THIGH_HIGHS = ItemEntry.register(
+			"maid_black_thigh_highs", () -> BlackMaidOutfitItem.of(EquipmentSlot.FEET)
 	);
 
 	/**
 	 * 藏青色 JK 制服夏服，装备在胸部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SUMMER = ItemEntry.register(
-			"jk_uniform_purplish_blue_summer", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.CHEST, new Item.Properties().stacksTo(1))
+			"jk_uniform_purplish_blue_summer", () -> JKUniformItem.of(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.CHEST)
 	);
 	/**
 	 * 藏青色 JK 制服裙，装备在腿部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SKIRT = ItemEntry.register(
-			"jk_uniform_purplish_blue_skirt", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.LEGS, new Item.Properties().stacksTo(1))
+			"jk_uniform_purplish_blue_skirt", () -> JKUniformItem.of(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.LEGS)
 	);
 	/**
 	 * 藏青色 JK 制服鞋，装备在脚部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_PURPLISH_BLUE_SHOES = ItemEntry.register(
-			"jk_uniform_purplish_blue_shoes", () -> new JKUniformItem(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
+			"jk_uniform_purplish_blue_shoes", () -> JKUniformItem.of(JKUniformItem.Variant.PURPLISH_BLUE, EquipmentSlot.FEET)
 	);
 	/**
 	 * 米色 JK 制服夏服，装备在胸部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SUMMER = ItemEntry.register(
-			"jk_uniform_cream_summer", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.CHEST, new Item.Properties().stacksTo(1))
+			"jk_uniform_cream_summer", () -> JKUniformItem.of(JKUniformItem.Variant.CREAM, EquipmentSlot.CHEST)
 	);
 	/**
 	 * 米色 JK 制服裙，装备在腿部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SKIRT = ItemEntry.register(
-			"jk_uniform_cream_skirt", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.LEGS, new Item.Properties().stacksTo(1))
+			"jk_uniform_cream_skirt", () -> JKUniformItem.of(JKUniformItem.Variant.CREAM, EquipmentSlot.LEGS)
 	);
 	/**
 	 * 米色 JK 制服鞋，装备在脚部槽位喵~
 	 */
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SHOES = ItemEntry.register(
-			"jk_uniform_cream_shoes", () -> new JKUniformItem(JKUniformItem.Variant.CREAM, EquipmentSlot.FEET, new Item.Properties().stacksTo(1))
+			"jk_uniform_cream_shoes", () -> JKUniformItem.of(JKUniformItem.Variant.CREAM, EquipmentSlot.FEET)
 	);
 
 	/**
 	 * 蓝色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> BLUE_THINKING_HAT = ItemEntry.register(
-			"blue_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.BLUE, new Item.Properties().stacksTo(1))
+			"blue_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.BLUE)
 	);
 	/**
 	 * 黄色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> YELLOW_THINKING_HAT = ItemEntry.register(
-			"yellow_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.YELLOW, new Item.Properties().stacksTo(1))
+			"yellow_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.YELLOW)
 	);
 	/**
 	 * 黑色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> BLACK_THINKING_HAT = ItemEntry.register(
-			"black_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.BLACK, new Item.Properties().stacksTo(1))
+			"black_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.BLACK)
 	);
 	/**
 	 * 红色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> RED_THINKING_HAT = ItemEntry.register(
-			"red_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.RED, new Item.Properties().stacksTo(1))
+			"red_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.RED)
 	);
 	/**
 	 * 白色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> WHITE_THINKING_HAT = ItemEntry.register(
-			"white_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.WHITE, new Item.Properties().stacksTo(1))
+			"white_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.WHITE)
 	);
 	/**
 	 * 绿色思考帽，装备在头部槽位喵~
 	 */
 	public static final ItemEntry<ThinkingHatItem> GREEN_THINKING_HAT = ItemEntry.register(
-			"green_thinking_hat", () -> new ThinkingHatItem(ThinkingHatItem.Variant.GREEN, new Item.Properties().stacksTo(1))
+			"green_thinking_hat", () -> ThinkingHatItem.of(ThinkingHatItem.Variant.GREEN)
 	);
 
 	private VWItems() {
@@ -199,7 +189,7 @@ public final class VWItems {
 		 *
 		 * @return 不可修改的物品条目集合喵~
 		 */
-		static Stream<ItemEntry<?>> getItems() {
+		public static Stream<ItemEntry<?>> getItems() {
 			return ITEMS.stream();
 		}
 

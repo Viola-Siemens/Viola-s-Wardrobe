@@ -2,6 +2,7 @@ package com.hexagram2021.violas_wardrobe.common.enchantments;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantmentCategories;
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -62,9 +63,7 @@ public class TamingEnchantment extends Enchantment {
 	 * @return 调整后的随机数结果喵~
 	 */
 	public static int wrapTamingChance(RandomSource instance, int bound, Player player, int ret) {
-		int rolls = player.getInventory().armor.stream()
-				.mapToInt(itemStack -> itemStack.getEnchantmentLevel(VWEnchantments.TAMING.get()))
-				.max().orElse(0);
+		int rolls = SuitUtils.getMaxEnchantLevel(player, VWEnchantments.TAMING.get());
 		if(rolls > 10) {
 			rolls = 10;
 		}

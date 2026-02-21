@@ -16,6 +16,8 @@ import net.minecraft.world.level.Level;
  * @author liudongyu
  */
 public abstract class BaseOutfitItem extends Item implements Equipable {
+	protected static final Properties OUTFIT_PROPERTIES = new Item.Properties().stacksTo(1);
+
 	private final EquipmentSlot slot;
 
 	/**

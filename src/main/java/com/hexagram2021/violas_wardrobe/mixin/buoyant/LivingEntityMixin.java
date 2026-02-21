@@ -1,12 +1,12 @@
 package com.hexagram2021.violas_wardrobe.mixin.buoyant;
 
 import com.hexagram2021.violas_wardrobe.common.registries.VWEnchantments;
+import com.hexagram2021.violas_wardrobe.common.utils.SuitUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,10 +36,7 @@ public class LivingEntityMixin {
 		} else if(this.violas_wardrobe$buoyantCheckTicks > 0) {
 			this.violas_wardrobe$buoyantCheckTicks -= 1;
 		} else {
-			int maxLevel = 0;
-			for(ItemStack itemStack: self.getArmorSlots()) {
-				maxLevel = Math.max(maxLevel, itemStack.getEnchantmentLevel(VWEnchantments.BUOYANT.get()));
-			}
+			int maxLevel = SuitUtils.getMaxEnchantLevel(self, VWEnchantments.BUOYANT.get());
 			if(maxLevel > 7) {
 				maxLevel = 7;
 			}
