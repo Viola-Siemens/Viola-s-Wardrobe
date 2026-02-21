@@ -1,6 +1,6 @@
 package com.hexagram2021.violas_wardrobe.client.compat.curios;
 
-import com.hexagram2021.violas_wardrobe.common.items.curios.VWCuriosItem;
+import com.hexagram2021.violas_wardrobe.common.items.BaseOutfitItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -19,6 +19,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * Viola's Wardrobe 模组的 Curios 渲染器，负责渲染服装物品在 Curios 槽位中的显示效果喵~
@@ -47,10 +48,11 @@ public record ViolasWardrobeCuriosRenderer(List<ModelWithTexture> models) implem
 	@Override
 	public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack matrixStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource renderTypeBuffer, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		Item item = stack.getItem();
-		if(item instanceof VWCuriosItem) {
+		if(item instanceof BaseOutfitItem outfitItem) {
 			for (ModelWithTexture model : this.models) {
 				ICurioRenderer.followBodyRotations(slotContext.entity(), model.model());
 				VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.entityCutout(model.texture()));
+				model.preparation.accept(model.model(), outfitItem);
 				model.model().renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 			}
 		}
@@ -64,6 +66,7 @@ public record ViolasWardrobeCuriosRenderer(List<ModelWithTexture> models) implem
 	 * @author liudongyu
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public record ModelWithTexture(HumanoidModel<LivingEntity> model, ResourceLocation texture) {
+	public record ModelWithTexture(HumanoidModel<LivingEntity> model, ResourceLocation texture,
+								   BiConsumer<HumanoidModel<LivingEntity>, BaseOutfitItem> preparation) {
 	}
 }

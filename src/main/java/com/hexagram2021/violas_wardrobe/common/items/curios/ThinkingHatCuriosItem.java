@@ -6,6 +6,7 @@ import com.hexagram2021.violas_wardrobe.client.models.ThinkingHatModel;
 import com.hexagram2021.violas_wardrobe.common.items.ThinkingHatItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
@@ -40,7 +41,15 @@ public class ThinkingHatCuriosItem extends ThinkingHatItem implements VWCuriosIt
 		return new ViolasWardrobeCuriosRenderer(List.of(
 				new ViolasWardrobeCuriosRenderer.ModelWithTexture(
 						new ThinkingHatModel<>(entityModelSet.bakeLayer(VWLayerLocations.THINKING_HAT)),
-						this.getOuterTexture()
+						this.getOuterTexture(),
+						(model, outfitItem) -> {
+							model.setAllVisible(false);
+							EquipmentSlot slot = outfitItem.getEquipmentSlot();
+							if (slot == EquipmentSlot.HEAD) {
+								model.head.visible = true;
+								model.hat.visible = true;
+							}
+						}
 				)
 		));
 	}

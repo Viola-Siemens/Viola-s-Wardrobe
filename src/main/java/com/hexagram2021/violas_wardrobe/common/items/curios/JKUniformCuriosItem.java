@@ -2,6 +2,7 @@ package com.hexagram2021.violas_wardrobe.common.items.curios;
 
 import com.hexagram2021.violas_wardrobe.client.VWLayerLocations;
 import com.hexagram2021.violas_wardrobe.client.compat.curios.ViolasWardrobeCuriosRenderer;
+import com.hexagram2021.violas_wardrobe.client.models.ISkirtModel;
 import com.hexagram2021.violas_wardrobe.client.models.JKUniformModel;
 import com.hexagram2021.violas_wardrobe.common.items.JKUniformItem;
 import net.minecraft.client.Minecraft;
@@ -43,11 +44,55 @@ public class JKUniformCuriosItem extends JKUniformItem implements VWCuriosItem {
 		return new ViolasWardrobeCuriosRenderer(List.of(
 				new ViolasWardrobeCuriosRenderer.ModelWithTexture(
 						new HumanoidArmorModel<>(entityModelSet.bakeLayer(VWLayerLocations.JK_UNIFORM_MAIN)),
-						this.getInnerTexture()
+						this.getInnerTexture(),
+						(model, outfitItem) -> {
+							model.setAllVisible(false);
+							EquipmentSlot slot = outfitItem.getEquipmentSlot();
+							switch (slot) {
+								case HEAD -> {
+									model.head.visible = true;
+									model.hat.visible = true;
+								}
+								case CHEST -> {
+									model.body.visible = true;
+									model.rightArm.visible = true;
+									model.leftArm.visible = true;
+								}
+								case LEGS -> {
+									// Nothing's for legs to render.
+								}
+								case FEET -> {
+									model.rightLeg.visible = true;
+									model.leftLeg.visible = true;
+								}
+								default -> throw new IllegalArgumentException("Unexpected slot: " + slot);
+							}
+						}
 				),
 				new ViolasWardrobeCuriosRenderer.ModelWithTexture(
 						new JKUniformModel<>(entityModelSet.bakeLayer(VWLayerLocations.JK_UNIFORM_OUTER)),
-						this.getOuterTexture()
+						this.getOuterTexture(),
+						(model, outfitItem) -> {
+							model.setAllVisible(false);
+							EquipmentSlot slot = outfitItem.getEquipmentSlot();
+							switch (slot) {
+								case HEAD -> {
+									model.head.visible = true;
+									model.hat.visible = true;
+								}
+								case CHEST -> {
+									model.body.visible = true;
+									model.rightArm.visible = true;
+									model.leftArm.visible = true;
+								}
+								case LEGS -> ((ISkirtModel)model).getSkirt().visible = true;
+								case FEET -> {
+									model.rightLeg.visible = true;
+									model.leftLeg.visible = true;
+								}
+								default -> throw new IllegalArgumentException("Unexpected slot: " + slot);
+							}
+						}
 				)
 		));
 	}
