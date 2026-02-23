@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: violas_wardrobe-${{steps.version.outputs.value}}-${{github.sha}}.jar
-          path: build/libs/violas_wardrobe-${{steps.version.outputs.value}}.jar
+          path: build/libs/violas_wardrobe-${{steps.version.outputs.value}}-all.jar
           repo-token:  ${{ secrets.ACTION_TOKEN }}
       - name: Upload sources to release
         uses: actions/upload-artifact@v4
