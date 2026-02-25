@@ -43,6 +43,10 @@ public final class SuitUtils {
 				entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == VWItems.JK_UNIFORM_CREAM_SUMMER.get() &&
 				entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == VWItems.JK_UNIFORM_CREAM_SKIRT.get() &&
 				entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.JK_UNIFORM_CREAM_SHOES.get()
+		) || (
+				entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == VWItems.JK_UNIFORM_BLACK_SUMMER.get() &&
+				entity.getItemBySlot(EquipmentSlot.LEGS).getItem() == VWItems.JK_UNIFORM_BLACK_SKIRT.get() &&
+				entity.getItemBySlot(EquipmentSlot.FEET).getItem() == VWItems.JK_UNIFORM_BLACK_SHOES.get()
 		);
 	}
 

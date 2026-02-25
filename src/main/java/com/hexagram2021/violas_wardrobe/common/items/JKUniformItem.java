@@ -92,6 +92,10 @@ public class JKUniformItem extends BaseOutfitItem {
 		/**
 		 * 米色喵~
 		 */
-		CREAM
+		CREAM,
+		/**
+		 * 黑色喵~
+		 */
+		BLACK
 	}
 }

@@ -91,6 +91,24 @@ public final class VWItems {
 	public static final ItemEntry<JKUniformItem> JK_UNIFORM_CREAM_SHOES = ItemEntry.register(
 			"jk_uniform_cream_shoes", () -> JKUniformItem.of(JKUniformItem.Variant.CREAM, EquipmentSlot.FEET)
 	);
+	/**
+	 * 黑色 JK 制服夏服，装备在胸部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_BLACK_SUMMER = ItemEntry.register(
+			"jk_uniform_black_summer", () -> JKUniformItem.of(JKUniformItem.Variant.BLACK, EquipmentSlot.CHEST)
+	);
+	/**
+	 * 黑色 JK 制服裙，装备在腿部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_BLACK_SKIRT = ItemEntry.register(
+			"jk_uniform_black_skirt", () -> JKUniformItem.of(JKUniformItem.Variant.BLACK, EquipmentSlot.LEGS)
+	);
+	/**
+	 * 黑色 JK 制服鞋，装备在脚部槽位喵~
+	 */
+	public static final ItemEntry<JKUniformItem> JK_UNIFORM_BLACK_SHOES = ItemEntry.register(
+			"jk_uniform_black_shoes", () -> JKUniformItem.of(JKUniformItem.Variant.BLACK, EquipmentSlot.FEET)
+	);
 
 	/**
 	 * 蓝色思考帽，装备在头部槽位喵~

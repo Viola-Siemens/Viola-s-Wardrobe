@@ -100,12 +100,13 @@ public final class ForgeEventHandler {
 				if(random.nextDouble() >= VWCommonConfig.POSSIBILITY_WITH_CLOTHES.get()) {
 					return;
 				}
-				int kind = random.nextInt(4);
+				int kind = random.nextInt(5);
 				switch (kind) {
 					case 0 -> setMaidClothing(mob, random);
 					case 1 -> setPurplishBlueJKUniform(mob, random);
 					case 2 -> setCreamJKUniform(mob, random);
-					case 3 -> {
+					case 3 -> setBlackJKUniform(mob, random);
+					case 4 -> {
 						// 思考帽喵~
 						int hatType = random.nextInt(6);
 						ItemStack hat;
@@ -149,6 +150,28 @@ public final class ForgeEventHandler {
 		}
 		if(random.nextBoolean()) {
 			mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.JK_UNIFORM_CREAM_SHOES));
+			mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+	}
+
+	/**
+	 * 为怪物装备黑色 JK 制服喵~
+	 *
+	 * @param mob 怪物实体喵~
+	 * @param random 随机数生成器喵~
+	 */
+	private static void setBlackJKUniform(Mob mob, RandomSource random) {
+		// 米色 JK 制服喵~
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.CHEST, new ItemStack(VWItems.JK_UNIFORM_BLACK_SUMMER));
+			mob.setDropChance(EquipmentSlot.CHEST, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.LEGS, new ItemStack(VWItems.JK_UNIFORM_BLACK_SKIRT));
+			mob.setDropChance(EquipmentSlot.LEGS, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
+		}
+		if(random.nextBoolean()) {
+			mob.setItemSlot(EquipmentSlot.FEET, new ItemStack(VWItems.JK_UNIFORM_BLACK_SHOES));
 			mob.setDropChance(EquipmentSlot.FEET, VWCommonConfig.CLOTHES_DROP_CHANCE.get().floatValue());
 		}
 	}

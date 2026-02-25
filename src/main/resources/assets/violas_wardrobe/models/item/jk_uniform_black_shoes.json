@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "violas_wardrobe:item/jk_uniform_black_shoes"
+  }
+}
