@@ -95,6 +95,7 @@ public abstract class ViolasWardrobeSkirtLayer<T extends LivingEntity, M extends
 		if (this.shouldRenderArmor(item, slot)) {
 			this.getParentModel().copyPropertiesTo(this.innerModel);
 			this.getParentModel().copyPropertiesTo(this.outerModel);
+			this.outerModel.getSkirt().copyFrom(this.getParentModel().body);
 			this.setInnerPartVisibility(slot);
 			this.setOuterPartVisibility(slot);
 			Model inner = ForgeHooksClient.getArmorModel(entity, itemstack, slot, this.innerModel);
